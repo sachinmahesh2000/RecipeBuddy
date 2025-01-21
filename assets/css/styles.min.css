@@ -1,0 +1,430 @@
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-f95f055f7d4d562a05da4ca7f0a74d96.woff2) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-7cfd5c73a2b3223ab82e5a63ef7f6366.woff2) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-bdde4eb66cae8c537fccbd8554486801.woff2) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-335a1e59e1f7526ab3704174a4898bef.woff2) format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-b5fb0b91f6fa3814e8d25da36c116990.woff2) format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-ba53957ad22115c911e214ba14f940c2.woff2) format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-13e8db4b8758b7eea30e8e50e85c378e.woff2) format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-c6271f53e5cd081a1eaf95397e531e52.woff2) format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-140bcad54d0ad70c71f50ac9e40b79b5.woff2) format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-e8a2628aa9d8247de652a41f6dc4686e.woff2) format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-60fc69ea2535eb035e68481283ff78f3.woff2) format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-5b217b4f19531540939072856d34bc84.woff2) format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-ee8f4ab19818ac5ca264a76cd9dbb7e4.woff2) format('woff2');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-76e61a86c4e021909d999af7201f0eea.woff2) format('woff2');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF
+}
+
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url(../../assets/fonts/Abhaya%20Libre-4ad6e3d7e93dab6e12ae119712723a9e.woff2) format('woff2');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+}
+
+:root,
+[data-bs-theme=light] {
+    --bs-primary: #122b91;
+    --bs-primary-rgb: 18, 43, 145;
+    --bs-primary-text-emphasis: #07113A;
+    --bs-primary-bg-subtle: #D0D5E9;
+    --bs-primary-border-subtle: #A0AAD3;
+    --bs-secondary: #2a6fdb;
+    --bs-secondary-rgb: 42, 111, 219;
+    --bs-secondary-text-emphasis: #112C58;
+    --bs-secondary-bg-subtle: #D4E2F8;
+    --bs-secondary-border-subtle: #AAC5F1;
+    --bs-success: #48d6d2;
+    --bs-success-rgb: 72, 214, 210;
+    --bs-success-text-emphasis: #1D5654;
+    --bs-success-bg-subtle: #DAF7F6;
+    --bs-success-border-subtle: #B6EFED;
+    --bs-danger: #ba265d;
+    --bs-danger-rgb: 186, 38, 93;
+    --bs-danger-text-emphasis: #4A0F25;
+    --bs-danger-bg-subtle: #F1D4DF;
+    --bs-danger-border-subtle: #E3A8BE
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #122b91;
+    --bs-btn-border-color: #122b91;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0F257B;
+    --bs-btn-hover-border-color: #0E2274;
+    --bs-btn-focus-shadow-rgb: 219, 223, 239;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0E2274;
+    --bs-btn-active-border-color: #0E206D;
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #122b91;
+    --bs-btn-disabled-border-color: #122b91
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #122b91;
+    --bs-btn-border-color: #122b91;
+    --bs-btn-focus-shadow-rgb: 18, 43, 145;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #122b91;
+    --bs-btn-hover-border-color: #122b91;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #122b91;
+    --bs-btn-active-border-color: #122b91;
+    --bs-btn-disabled-color: #122b91;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #122b91
+}
+
+.btn-secondary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #2a6fdb;
+    --bs-btn-border-color: #2a6fdb;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #245EBA;
+    --bs-btn-hover-border-color: #2259AF;
+    --bs-btn-focus-shadow-rgb: 223, 233, 250;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #2259AF;
+    --bs-btn-active-border-color: #2053A4;
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #2a6fdb;
+    --bs-btn-disabled-border-color: #2a6fdb
+}
+
+.btn-outline-secondary {
+    --bs-btn-color: #2a6fdb;
+    --bs-btn-border-color: #2a6fdb;
+    --bs-btn-focus-shadow-rgb: 42, 111, 219;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #2a6fdb;
+    --bs-btn-hover-border-color: #2a6fdb;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #2a6fdb;
+    --bs-btn-active-border-color: #2a6fdb;
+    --bs-btn-disabled-color: #2a6fdb;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #2a6fdb
+}
+
+.btn-success {
+    --bs-btn-color: #000000;
+    --bs-btn-bg: #48d6d2;
+    --bs-btn-border-color: #48d6d2;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #63DCD9;
+    --bs-btn-hover-border-color: #5ADAD7;
+    --bs-btn-focus-shadow-rgb: 11, 32, 32;
+    --bs-btn-active-color: #000000;
+    --bs-btn-active-bg: #6DDEDB;
+    --bs-btn-active-border-color: #5ADAD7;
+    --bs-btn-disabled-color: #000000;
+    --bs-btn-disabled-bg: #48d6d2;
+    --bs-btn-disabled-border-color: #48d6d2
+}
+
+.btn-outline-success {
+    --bs-btn-color: #48d6d2;
+    --bs-btn-border-color: #48d6d2;
+    --bs-btn-focus-shadow-rgb: 72, 214, 210;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #48d6d2;
+    --bs-btn-hover-border-color: #48d6d2;
+    --bs-btn-active-color: #000000;
+    --bs-btn-active-bg: #48d6d2;
+    --bs-btn-active-border-color: #48d6d2;
+    --bs-btn-disabled-color: #48d6d2;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #48d6d2
+}
+
+.btn-danger {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #ba265d;
+    --bs-btn-border-color: #ba265d;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #9E204F;
+    --bs-btn-hover-border-color: #951E4A;
+    --bs-btn-focus-shadow-rgb: 245, 222, 231;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #951E4A;
+    --bs-btn-active-border-color: #8C1D46;
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #ba265d;
+    --bs-btn-disabled-border-color: #ba265d
+}
+
+.btn-outline-danger {
+    --bs-btn-color: #ba265d;
+    --bs-btn-border-color: #ba265d;
+    --bs-btn-focus-shadow-rgb: 186, 38, 93;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #ba265d;
+    --bs-btn-hover-border-color: #ba265d;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #ba265d;
+    --bs-btn-active-border-color: #ba265d;
+    --bs-btn-disabled-color: #ba265d;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #ba265d
+}
+
+.fit-cover {
+    object-fit: cover
+}
+
+.col-item {
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    background: #fff
+}
+
+.col-item .photo img {
+    margin: 0 auto;
+    width: 100%
+}
+
+.col-item .info {
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+    margin-top: 1px
+}
+
+.col-item:hover .info {
+    background-color: beige
+}
+
+.col-item .price {
+    float: left;
+    margin-top: 5px
+}
+
+.col-item .price h5 {
+    line-height: 20px;
+    margin: 0
+}
+
+.price-text-color {
+    color: #219fd1
+}
+
+.col-item .info .rating {
+    color: #777
+}
+
+.col-item .rating {
+    float: left;
+    font-size: 17px;
+    text-align: right;
+    line-height: 52px;
+    margin-bottom: 10px;
+    height: 52px
+}
+
+.col-item .separator {
+    border-top: 1px solid #e1e1e1
+}
+
+.clear-left {
+    clear: left
+}
+
+.col-item .separator p {
+    line-height: 20px;
+    margin-bottom: 0;
+    margin-top: 10px;
+    text-align: center
+}
+
+.col-item .separator p i {
+    margin-right: 5px
+}
+
+.col-item .btn-add {
+    width: 50%;
+    float: left;
+    border-right: 1px solid #e1e1e1
+}
+
+.col-item .btn-details {
+    width: 50%;
+    float: left;
+    padding-left: 10px
+}
+
+.controls {
+    margin-top: 20px
+}
+
+[data-slide=prev] {
+    margin-right: 10px
+}
+
+.bs-icon {
+    --bs-icon-size: .75rem;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--bs-icon-size);
+    width: calc(var(--bs-icon-size) * 2);
+    height: calc(var(--bs-icon-size) * 2);
+    color: var(--bs-primary)
+}
+
+.bs-icon-xs {
+    --bs-icon-size: 1rem;
+    width: calc(var(--bs-icon-size) * 1.5);
+    height: calc(var(--bs-icon-size) * 1.5)
+}
+
+.bs-icon-sm {
+    --bs-icon-size: 1rem
+}
+
+.bs-icon-md {
+    --bs-icon-size: 1.5rem
+}
+
+.bs-icon-lg {
+    --bs-icon-size: 2rem
+}
+
+.bs-icon-xl {
+    --bs-icon-size: 2.5rem
+}
+
+.bs-icon.bs-icon-primary {
+    color: var(--bs-white);
+    background: var(--bs-primary)
+}
+
+.bs-icon.bs-icon-primary-light {
+    color: var(--bs-primary);
+    background: rgba(var(--bs-primary-rgb), .2)
+}
+
+.bs-icon.bs-icon-semi-white {
+    color: var(--bs-primary);
+    background: rgba(255, 255, 255, .5)
+}
+
+.bs-icon.bs-icon-rounded {
+    border-radius: .5rem
+}
+
+.bs-icon.bs-icon-circle {
+    border-radius: 50%
+}

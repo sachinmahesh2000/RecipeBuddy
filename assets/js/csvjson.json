@@ -1,0 +1,42 @@
+[
+    {
+        "Product ID": "pizza-dough",
+        "Product Name": "Pizza Dough",
+        "Product Type": "physical",
+        "Description (HTML)": "<p><br /></p>",
+        "Excerpt": "",
+        "Show In Store": "TRUE",
+        "Categories": "",
+        "Custom Sort": "",
+        "Media Src": "",
+        "Variants Option Name": "",
+        "Variant Name": "",
+        "Variant Image Index": "",
+        "Price": 1.45,
+        "Original Price": "",
+        "SKU": "",
+        "Shipping Weight": "",
+        "In Stock": "TRUE",
+        "Stock Quantity": ""
+    },
+    {
+        "Product ID": "mozzerella-cheese",
+        "Product Name": "Mozzerella Cheese",
+        "Product Type": "physical",
+        "Description (HTML)": "<p><br /></p>",
+        "Excerpt": "",
+        "Show In Store": "TRUE",
+        "Categories": "",
+        "Custom Sort": "",
+        "Media Src": "",
+        "Variants Option Name": "",
+        "Variant Name": "",
+        "Variant Image Index": "",
+        "Price": 3.98,
+        "Original Price": "",
+        "SKU": "",
+        "Shipping Weight": "",
+        "In Stock": "TRUE",
+        "Stock Quantity": ""
+    }
+]
