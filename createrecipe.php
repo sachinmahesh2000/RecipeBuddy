@@ -29,30 +29,38 @@
         <h1 class="mb-4">Upload Recipe</h1>
         <form id="recipeForm" action="upload.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="image">Recipe Image</label>
+                <label class="mb-2 fs-4" for="image">Recipe Image</label>
                 <input type="file" class="form-control" id="image" name="image" required>
             </div>
             <div class="form-group">
-                <label for="title">Recipe Title</label>
+                <label class="mb-2 fs-4" for="title">Recipe Title</label>
                 <input type="text" class="form-control" id="title" name="title" placeholder="Enter recipe title" required>
             </div>
             <div class="form-group">
-                <label for="description">Recipe Description</label>
+                <label class="mb-2 fs-4" for="description">Recipe Description</label>
                 <textarea class="form-control" id="description" name="description" placeholder="Enter recipe description" required></textarea>
             </div>
             <div class="form-group">
-                <label for="ingredients">Ingredients</label>
+                <label class="mb-2 fs-4" for="ingredients">Ingredients</label>
                 <div id="ingredients">
                     <div class="dynamic-input">
                         <input type="text" class="form-control" name="ingredients[]" placeholder="Enter ingredient" required>
                         <input type="text" class="form-control" name="quantities[]" placeholder="Enter quantity" required>
+                        <input type="text" class="form-control" name="units[]" placeholder="Unit" list="unit-options">
+                        <datalist id="unit-options">
+                            <option value="gm">
+                            <option value="oz">
+                            <option value="ml">
+                            <option value="l">
+                            <option value="lb">
+                        </datalist>
                         <button type="button" class="btn-close" onclick="removeElement(this)" aria-label="Close"></button>
                     </div>
                 </div>
                 <button type="button" class="btn btn-secondary" onclick="addIngredient()">Add Ingredient</button>
             </div>
             <div class="form-group">
-                <label for="instructions">Instructions</label>
+                <label class="mb-2 fs-4"  for="instructions">Instructions</label>
                 <div id="instructions">
                     <div class="dynamic-input">
                         <input type="text" class="form-control" name="instructions[]" placeholder="Enter instruction" required>
@@ -72,6 +80,14 @@
             input.innerHTML = `
                 <input type="text" class="form-control" name="ingredients[]" placeholder="Enter ingredient" required>
                 <input type="text" class="form-control" name="quantities[]" placeholder="Enter quantity" required>
+                <input type="text" class="form-control" name="units[]" placeholder="Unit" list="unit-options">
+                        <datalist id="unit-options">
+                            <option value="gm">
+                            <option value="oz">
+                            <option value="ml">
+                            <option value="l">
+                            <option value="lb">
+                        </datalist>
                 <button type="button" class="btn-close" onclick="removeElement(this)" aria-label="Close"></button>
             `;
             container.appendChild(input);
