@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2024 at 02:23 AM
+-- Generation Time: Feb 13, 2025 at 10:11 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -176,8 +176,7 @@ INSERT INTO `recipe` (`RecipeID`, `Title`, `Description`, `RecipeImagePath`, `Re
 (4, 'Cake', 'nice cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2024-12-06 13:08:45'),
 (5, 'Salad Bowl', 'asdf', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:13:34'),
 (6, 'fdfsdfs', 'fsdfsdf', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:15:41'),
-(8, 'New recipe', 'i dont know', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:20:55'),
-(13, 'asdfasdf', 'sdaerqdf', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 19:22:02');
+(8, 'New recipe', 'i dont know', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:20:55');
 
 -- --------------------------------------------------------
 
@@ -202,8 +201,6 @@ INSERT INTO `recipe_ingredients` (`Recipe_Ingredients_ID`, `RecipeID`, `Ingredie
 (11, 2, 11),
 (21, 8, 21),
 (22, 8, 22),
-(51, 13, 51),
-(52, 13, 52),
 (55, 1, 55),
 (56, 1, 56),
 (57, 1, 57),
@@ -234,14 +231,24 @@ INSERT INTO `recipe_instructions` (`Recipe_Instructions_ID`, `RecipeID`, `Instru
 (10, 2, 10),
 (11, 2, 11),
 (12, 2, 12),
-(43, 13, 52),
-(44, 13, 53),
 (46, 1, 55),
 (47, 1, 56),
 (48, 1, 57),
 (49, 1, 58),
 (50, 1, 59),
 (51, 1, 60);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recipe_units`
+--
+
+CREATE TABLE `recipe_units` (
+  `Recipe_Unit_ID` int(11) NOT NULL,
+  `RecipeID` int(11) NOT NULL,
+  `UnitID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -261,8 +268,18 @@ CREATE TABLE `recipe_users` (
 
 INSERT INTO `recipe_users` (`Recipe_Users_ID`, `RecipeID`, `UserID`) VALUES
 (3, 1, 3),
-(4, 2, 4),
-(9, 13, 3);
+(4, 2, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `units`
+--
+
+CREATE TABLE `units` (
+  `UnitID` int(11) NOT NULL,
+  `Unit` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -326,12 +343,26 @@ ALTER TABLE `recipe_instructions`
   ADD KEY `InstructionsID` (`InstructionsID`);
 
 --
+-- Indexes for table `recipe_units`
+--
+ALTER TABLE `recipe_units`
+  ADD PRIMARY KEY (`Recipe_Unit_ID`),
+  ADD KEY `Recipe_Units_Recipe` (`RecipeID`),
+  ADD KEY `Recipe_Units_Units` (`UnitID`);
+
+--
 -- Indexes for table `recipe_users`
 --
 ALTER TABLE `recipe_users`
   ADD PRIMARY KEY (`Recipe_Users_ID`),
   ADD KEY `RecipeID` (`RecipeID`),
   ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `units`
+--
+ALTER TABLE `units`
+  ADD PRIMARY KEY (`UnitID`);
 
 --
 -- Indexes for table `users`
@@ -374,10 +405,22 @@ ALTER TABLE `recipe_instructions`
   MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
+-- AUTO_INCREMENT for table `recipe_units`
+--
+ALTER TABLE `recipe_units`
+  MODIFY `Recipe_Unit_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `recipe_users`
 --
 ALTER TABLE `recipe_users`
   MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `units`
+--
+ALTER TABLE `units`
+  MODIFY `UnitID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -402,6 +445,13 @@ ALTER TABLE `recipe_ingredients`
 ALTER TABLE `recipe_instructions`
   ADD CONSTRAINT `Recipe_Instructions_Instructions` FOREIGN KEY (`InstructionsID`) REFERENCES `instructions` (`InstructionID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Recipe_Instructions_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `recipe_units`
+--
+ALTER TABLE `recipe_units`
+  ADD CONSTRAINT `Recipe_Units_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Recipe_Units_Units` FOREIGN KEY (`UnitID`) REFERENCES `units` (`UnitID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `recipe_users`
