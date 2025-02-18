@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2025 at 10:11 PM
+-- Generation Time: Feb 18, 2025 at 02:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,63 +29,85 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `ingredients` (
   `IngredientID` int(11) NOT NULL,
-  `Ingredient` varchar(50) NOT NULL,
-  `Quantity` decimal(4,2) NOT NULL
+  `Ingredient` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ingredients`
 --
 
-INSERT INTO `ingredients` (`IngredientID`, `Ingredient`, `Quantity`) VALUES
-(1, 'Pizza dough', 1.00),
-(2, 'Pizza sauce', 1.00),
-(3, 'Shredded mozzarella cheese', 3.00),
-(4, 'Grated parmesan cheese', 1.00),
-(5, 'Dried oregano', 1.50),
-(6, 'Dried Basil', 2.50),
-(7, 'Olive oil', 1.00),
-(8, 'Flour', 1.00),
-(9, 'Baking Powder', 0.50),
-(10, 'Sugar', 0.20),
-(11, 'Milk', 0.80),
-(21, 'maybe something', 1.00),
-(22, 'anything else', 2.00),
-(27, 'werwer', 1.00),
-(28, 'werwer', 1.00),
-(29, 'rwerwrwr', 1.00),
-(30, 'dfgsdfgsdfgg', 4.00),
-(31, 'Pizza dough', 1.00),
-(32, 'Pizza sauce', 1.00),
-(33, 'Shredded mozzarella cheese', 3.00),
-(34, 'Grated parmesan cheese', 1.00),
-(35, 'Dried oregano', 1.50),
-(36, 'Dried Basil', 2.50),
-(37, 'Pizza dough', 1.00),
-(38, 'Pizza sauce', 1.00),
-(39, 'Shredded mozzarella cheese', 3.00),
-(40, 'Grated parmesan cheese', 1.00),
-(41, 'Dried oregano', 1.50),
-(42, 'Dried Basil', 2.50),
-(43, 'Olive Oil', 1.20),
-(44, 'Pizza dough', 1.00),
-(45, 'Pizza sauce', 1.00),
-(46, 'Shredded mozzarella cheese', 3.00),
-(47, 'Grated parmesan cheese', 1.00),
-(48, 'Dried oregano', 1.50),
-(49, 'Dried Basil', 2.50),
-(50, 'Olive Oil', 1.20),
-(51, 'asdsfasdff', 1.20),
-(52, 'asdffasdf', 1.00),
-(53, 'werwerw', 1.20),
-(54, 'werwer', 1.00),
-(55, 'Pizza dough', 1.00),
-(56, 'Pizza sauce', 1.00),
-(57, 'Shredded mozzarella cheese', 3.00),
-(58, 'Grated parmesan cheese', 1.00),
-(59, 'Dried oregano', 1.50),
-(60, 'Dried Basil', 2.50),
-(61, 'Olive Oil', 1.20);
+INSERT INTO `ingredients` (`IngredientID`, `Ingredient`) VALUES
+(1, 'Pizza dough'),
+(2, 'Pizza sauce'),
+(3, 'Shredded mozzarella cheese'),
+(4, 'Grated parmesan cheese'),
+(5, 'Dried oregano'),
+(6, 'Dried Basil'),
+(7, 'Olive oil'),
+(8, 'Flour'),
+(9, 'Baking Powder'),
+(10, 'Sugar'),
+(11, 'Milk'),
+(21, 'maybe something'),
+(22, 'anything else'),
+(27, 'werwer'),
+(28, 'werwer'),
+(29, 'rwerwrwr'),
+(30, 'dfgsdfgsdfgg'),
+(31, 'Pizza dough'),
+(32, 'Pizza sauce'),
+(33, 'Shredded mozzarella cheese'),
+(34, 'Grated parmesan cheese'),
+(35, 'Dried oregano'),
+(36, 'Dried Basil'),
+(37, 'Pizza dough'),
+(38, 'Pizza sauce'),
+(39, 'Shredded mozzarella cheese'),
+(40, 'Grated parmesan cheese'),
+(41, 'Dried oregano'),
+(42, 'Dried Basil'),
+(43, 'Olive Oil'),
+(44, 'Pizza dough'),
+(45, 'Pizza sauce'),
+(46, 'Shredded mozzarella cheese'),
+(47, 'Grated parmesan cheese'),
+(48, 'Dried oregano'),
+(49, 'Dried Basil'),
+(50, 'Olive Oil'),
+(51, 'asdsfasdff'),
+(52, 'asdffasdf'),
+(53, 'werwerw'),
+(54, 'werwer'),
+(55, 'Pizza dough'),
+(56, 'Pizza sauce'),
+(57, 'Shredded mozzarella cheese'),
+(58, 'Grated parmesan cheese'),
+(59, 'Dried oregano'),
+(60, 'Dried Basil'),
+(61, 'Olive Oil'),
+(62, 'cotton'),
+(63, 'color'),
+(64, 'blue color'),
+(65, 'cotton'),
+(66, 'Pizza dough'),
+(67, 'tomato sauce'),
+(68, 'cheese'),
+(69, 'olive oil'),
+(70, 'spinach'),
+(71, 'qqqq'),
+(72, 'wwwww'),
+(73, 'rrrr'),
+(74, 'tttt'),
+(75, 'qqqq'),
+(76, 'aaaa'),
+(77, 'qq'),
+(78, 'zz'),
+(79, 'qq'),
+(80, 'as'),
+(81, 'lime'),
+(82, 'Rice'),
+(83, 'Romaine'),
+(84, 'Black Beans');
 
 -- --------------------------------------------------------
 
@@ -148,7 +170,24 @@ INSERT INTO `instructions` (`InstructionID`, `Instruction`) VALUES
 (57, 'Once your dough is rolled out, transfer it to a pizza peel'),
 (58, 'Spread the pizza sauce evenly over the dough, leaving a small border around the edges for the crust.'),
 (59, 'Add the grated Parmesan cheese on top of the mozzarella.'),
-(60, ' If you’re using a pizza stone, carefully transfer the pizza from the peel to the preheated stone in the ');
+(60, ' If you’re using a pizza stone, carefully transfer the pizza from the peel to the preheated stone in the '),
+(61, 'make tshirt'),
+(62, 'safsdf'),
+(63, 'asdfasdf'),
+(64, 'make the dough'),
+(65, 'round the dough'),
+(66, 'apply tomato base'),
+(67, 'apply olive oil'),
+(68, 'add cheese'),
+(69, 'add spinach'),
+(70, 'asdfa'),
+(71, 'asdfasdff'),
+(72, 'asdsf'),
+(73, 'asdfa'),
+(74, 'wrw'),
+(75, 'cook rice'),
+(76, 'cook beans'),
+(77, 'Food ready');
 
 -- --------------------------------------------------------
 
@@ -170,13 +209,12 @@ CREATE TABLE `recipe` (
 --
 
 INSERT INTO `recipe` (`RecipeID`, `Title`, `Description`, `RecipeImagePath`, `RecipeImageName`, `DateCreated`) VALUES
-(1, 'Cheesy Pizza', 'Delicious pizza that melts in your mouth\r\n                                                                                                                                            ', 'assets/img/recpie-3.jpg', 'recpie-3.jpg', '2024-12-05 13:19:22'),
-(2, 'Pancakes', 'Fluffy pancakes', 'assets\\img\\recpie-2.jpg', 'recpie-2.jpg', '2024-12-05 14:37:16'),
 (3, 'Healthy Salad', 'nice salad', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:01:23'),
 (4, 'Cake', 'nice cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2024-12-06 13:08:45'),
 (5, 'Salad Bowl', 'asdf', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:13:34'),
 (6, 'fdfsdfs', 'fsdfsdf', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:15:41'),
-(8, 'New recipe', 'i dont know', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:20:55');
+(8, 'New recipe', 'i dont know', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:20:55'),
+(23, 'Salad Bowl', 'anything', 'assets/img/brooke-lark-jUPOXXRNdcA-unsplash.jpg', 'brooke-lark-jUPOXXRNdcA-unsplash.jpg', '2025-02-17 20:52:28');
 
 -- --------------------------------------------------------
 
@@ -195,19 +233,36 @@ CREATE TABLE `recipe_ingredients` (
 --
 
 INSERT INTO `recipe_ingredients` (`Recipe_Ingredients_ID`, `RecipeID`, `IngredientID`) VALUES
-(8, 2, 8),
-(9, 2, 9),
-(10, 2, 10),
-(11, 2, 11),
 (21, 8, 21),
 (22, 8, 22),
-(55, 1, 55),
-(56, 1, 56),
-(57, 1, 57),
-(58, 1, 58),
-(59, 1, 59),
-(60, 1, 60),
-(61, 1, 61);
+(81, 23, 81),
+(82, 23, 82),
+(83, 23, 83),
+(84, 23, 84);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recipe_ingredients_units`
+--
+
+CREATE TABLE `recipe_ingredients_units` (
+  `Recipe_Ingredient_Unit_ID` int(11) NOT NULL,
+  `IngredientID` int(11) NOT NULL,
+  `UnitID` int(11) NOT NULL,
+  `RecipeID` int(11) NOT NULL,
+  `Quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `recipe_ingredients_units`
+--
+
+INSERT INTO `recipe_ingredients_units` (`Recipe_Ingredient_Unit_ID`, `IngredientID`, `UnitID`, `RecipeID`, `Quantity`) VALUES
+(10, 81, 4, 23, 10),
+(11, 82, 4, 23, 400),
+(12, 83, 4, 23, 200),
+(13, 84, 4, 23, 300);
 
 -- --------------------------------------------------------
 
@@ -226,29 +281,9 @@ CREATE TABLE `recipe_instructions` (
 --
 
 INSERT INTO `recipe_instructions` (`Recipe_Instructions_ID`, `RecipeID`, `InstructionsID`) VALUES
-(8, 2, 8),
-(9, 2, 9),
-(10, 2, 10),
-(11, 2, 11),
-(12, 2, 12),
-(46, 1, 55),
-(47, 1, 56),
-(48, 1, 57),
-(49, 1, 58),
-(50, 1, 59),
-(51, 1, 60);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `recipe_units`
---
-
-CREATE TABLE `recipe_units` (
-  `Recipe_Unit_ID` int(11) NOT NULL,
-  `RecipeID` int(11) NOT NULL,
-  `UnitID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(66, 23, 75),
+(67, 23, 76),
+(68, 23, 77);
 
 -- --------------------------------------------------------
 
@@ -267,8 +302,7 @@ CREATE TABLE `recipe_users` (
 --
 
 INSERT INTO `recipe_users` (`Recipe_Users_ID`, `RecipeID`, `UserID`) VALUES
-(3, 1, 3),
-(4, 2, 4);
+(19, 23, 4);
 
 -- --------------------------------------------------------
 
@@ -280,6 +314,16 @@ CREATE TABLE `units` (
   `UnitID` int(11) NOT NULL,
   `Unit` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `units`
+--
+
+INSERT INTO `units` (`UnitID`, `Unit`) VALUES
+(2, 'lb'),
+(3, 'ml'),
+(4, 'gm'),
+(5, 'oz');
 
 -- --------------------------------------------------------
 
@@ -335,20 +379,21 @@ ALTER TABLE `recipe_ingredients`
   ADD KEY `IngredientID` (`IngredientID`);
 
 --
+-- Indexes for table `recipe_ingredients_units`
+--
+ALTER TABLE `recipe_ingredients_units`
+  ADD PRIMARY KEY (`Recipe_Ingredient_Unit_ID`),
+  ADD KEY `Recipe_Ingredients_Units_Recipe` (`RecipeID`),
+  ADD KEY `Recipe_Ingredients_Units_Ingredients` (`IngredientID`),
+  ADD KEY `Recipe_Ingredients_Units_Units` (`UnitID`);
+
+--
 -- Indexes for table `recipe_instructions`
 --
 ALTER TABLE `recipe_instructions`
   ADD PRIMARY KEY (`Recipe_Instructions_ID`),
   ADD KEY `RecipeID` (`RecipeID`),
   ADD KEY `InstructionsID` (`InstructionsID`);
-
---
--- Indexes for table `recipe_units`
---
-ALTER TABLE `recipe_units`
-  ADD PRIMARY KEY (`Recipe_Unit_ID`),
-  ADD KEY `Recipe_Units_Recipe` (`RecipeID`),
-  ADD KEY `Recipe_Units_Units` (`UnitID`);
 
 --
 -- Indexes for table `recipe_users`
@@ -378,49 +423,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `instructions`
 --
 ALTER TABLE `instructions`
-  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `recipe_ingredients`
 --
 ALTER TABLE `recipe_ingredients`
-  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
+--
+-- AUTO_INCREMENT for table `recipe_ingredients_units`
+--
+ALTER TABLE `recipe_ingredients_units`
+  MODIFY `Recipe_Ingredient_Unit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `recipe_instructions`
 --
 ALTER TABLE `recipe_instructions`
-  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
-
---
--- AUTO_INCREMENT for table `recipe_units`
---
-ALTER TABLE `recipe_units`
-  MODIFY `Recipe_Unit_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `recipe_users`
 --
 ALTER TABLE `recipe_users`
-  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `units`
 --
 ALTER TABLE `units`
-  MODIFY `UnitID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `UnitID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -440,18 +485,19 @@ ALTER TABLE `recipe_ingredients`
   ADD CONSTRAINT `Recipe_Ingredients_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `recipe_ingredients_units`
+--
+ALTER TABLE `recipe_ingredients_units`
+  ADD CONSTRAINT `Recipe_Ingredients_Units_Ingredients` FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`IngredientID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Recipe_Ingredients_Units_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Recipe_Ingredients_Units_Units` FOREIGN KEY (`UnitID`) REFERENCES `units` (`UnitID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `recipe_instructions`
 --
 ALTER TABLE `recipe_instructions`
   ADD CONSTRAINT `Recipe_Instructions_Instructions` FOREIGN KEY (`InstructionsID`) REFERENCES `instructions` (`InstructionID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Recipe_Instructions_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `recipe_units`
---
-ALTER TABLE `recipe_units`
-  ADD CONSTRAINT `Recipe_Units_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Recipe_Units_Units` FOREIGN KEY (`UnitID`) REFERENCES `units` (`UnitID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `recipe_users`
