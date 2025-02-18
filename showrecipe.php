@@ -4,10 +4,11 @@ session_start();
 $id = "";
 $ingredientsArray = array();
 
+
 if (isset($_GET['id'])) {
   $id = $_GET['id'];
 
-  $ingredient_sql = "SELECT recipe.RecipeID, recipe.RecipeImagePath, Title, ingredient, Quantity FROM recipe_ingredients
+  $ingredient_sql = "SELECT recipe.RecipeID, recipe.RecipeImagePath, Title, ingredient FROM recipe_ingredients
                       JOIN recipe ON recipe_ingredients.RecipeID = recipe.RecipeID
                       JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID
                       WHERE recipe.RecipeID = $id";
@@ -22,15 +23,28 @@ if (isset($_GET['id'])) {
                   JOIN users ON recipe_users.UserID = users.UserID
                   WHERE recipe.RecipeID = $id";
 
+  $units_sql = "SELECT recipe.RecipeID, Unit, Quantity, ingredients.Ingredient FROM recipe_ingredients_units
+                JOIN recipe ON recipe_ingredients_units.RecipeID = recipe.RecipeID
+                JOIN units ON recipe_ingredients_units.UnitID = units.UnitID
+                JOIN ingredients ON recipe_ingredients_units.IngredientID = ingredients.IngredientID
+                WHERE recipe.RecipeID = $id";
+
   $ingredient_result = mysqli_query($conn, $ingredient_sql);
   $ingredient_row = mysqli_fetch_assoc($ingredient_result);
   $instructions_result = mysqli_query($conn, $instructions_sql);
   $users_result = mysqli_query($conn, $users_sql);
   $users_row = mysqli_fetch_assoc($users_result);
+  $units_result = mysqli_query($conn,$units_sql);
+  
 
   if ($ingredient_result) {
     while ($row = mysqli_fetch_assoc($ingredient_result)) {
       $ingredientsArray[] = $row;
+    }
+  }
+  if ($units_result) {
+    while ($row = mysqli_fetch_assoc($units_result)) {
+      $unitsArray[] = $row;
     }
   }
 }
@@ -131,8 +145,8 @@ if (isset($_GET['id'])) {
         <div class="container d-flex flex-column">
           <h4 class="fs-3">Ingredients</h4>
           <ol class="list-group list-group-flush list-group-numbered fs-5 mb-2">
-            <?php foreach ($ingredientsArray as $ingredient): ?>
-              <li class="list-group-item"><?php echo $ingredient['ingredient']; ?> | Quantity: <?php echo $ingredient['Quantity']; ?></li>
+            <?php foreach ($unitsArray as $unit): ?>
+              <li class="list-group-item"><?php echo $unit['Ingredient']; ?> | Quantity: <?php echo $unit['Quantity']; ?></li>
             <?php endforeach; ?>
           </ol>
           <h4 class="fs-3">Instructions</h4>
@@ -149,11 +163,11 @@ if (isset($_GET['id'])) {
   <!-- Dynamic ingredients Card -->
   <div
     class="container">
-    <?php foreach ($ingredientsArray as $ingredient): ?>
+    <?php foreach ($unitsArray as $ingredient): ?>
       <div
         class="row d-flex m-2 d-xxl-flex flex-row justify-content-xxl-center align-items-xxl-center">
         <div class="col-md-12 col-xxl-6 d-xxl-flex align-items-xxl-center">
-          <h3><?php echo $ingredient['ingredient']; ?></h3>
+          <h3><?php echo $ingredient['Ingredient']; ?></h3>
         </div>
         <div
           class="col d-xxl-flex justify-content-xxl-end align-items-xxl-center">
