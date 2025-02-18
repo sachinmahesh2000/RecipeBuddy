@@ -34,8 +34,8 @@ if (isset($_GET['id'])) {
   $instructions_result = mysqli_query($conn, $instructions_sql);
   $users_result = mysqli_query($conn, $users_sql);
   $users_row = mysqli_fetch_assoc($users_result);
-  $units_result = mysqli_query($conn,$units_sql);
-  
+  $units_result = mysqli_query($conn, $units_sql);
+
 
   if ($ingredient_result) {
     while ($row = mysqli_fetch_assoc($ingredient_result)) {
@@ -112,6 +112,7 @@ if (isset($_GET['id'])) {
       </div>
     </div>
   </nav>
+  <!-- ingredient -->
   <div
     class="container py-4 py-xl-5"
     style="padding-top: 8px; margin-top: -24px">
@@ -146,7 +147,10 @@ if (isset($_GET['id'])) {
           <h4 class="fs-3">Ingredients</h4>
           <ol class="list-group list-group-flush list-group-numbered fs-5 mb-2">
             <?php foreach ($unitsArray as $unit): ?>
-              <li class="list-group-item"><?php echo $unit['Ingredient']; ?> | Quantity: <?php echo $unit['Quantity']; ?></li>
+              <li class="list-group-item">
+                <?php echo $unit['Ingredient']; ?>
+                | Quantity: <?php echo $unit['Quantity'] . $unit['Unit']; ?>
+              </li>
             <?php endforeach; ?>
           </ol>
           <h4 class="fs-3">Instructions</h4>
