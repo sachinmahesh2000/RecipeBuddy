@@ -16,11 +16,24 @@ if ($recipe_id) {
         $recipe = mysqli_fetch_assoc($result);
     }
 
+    $units_sql = "SELECT * FROM units";
+    $units_result = mysqli_query($conn, $units_sql);
+    while ($units_row = mysqli_fetch_assoc($units_result)) {
+        $units[] = $units_row;
+    }
+
     // Fetch ingredients
-    $sql = "SELECT ingredients.IngredientID, Ingredient, Quantity FROM `recipe_ingredients` 
-            JOIN recipe ON recipe_ingredients.RecipeID = recipe.RecipeID
-            JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID
-            WHERE recipe.RecipeID = $recipe_id";
+    // $sql = "SELECT ingredients.IngredientID, Ingredient, Quantity, Unit, UnitID FROM `recipe_ingredients` 
+    //         JOIN recipe ON recipe_ingredients.RecipeID = recipe.RecipeID
+    //         JOIN ingredients ON recipe_ingredients.IngredientID = ingredients.IngredientID
+    //         WHERE recipe.RecipeID = $recipe_id";
+
+    $sql = "SELECT recipe.RecipeID, Unit, Quantity, ingredients.Ingredient, ingredients.IngredientID FROM recipe_ingredients_units
+                JOIN recipe ON recipe_ingredients_units.RecipeID = recipe.RecipeID
+                JOIN units ON recipe_ingredients_units.UnitID = units.UnitID
+                JOIN ingredients ON recipe_ingredients_units.IngredientID = ingredients.IngredientID
+                WHERE recipe.RecipeID = $recipe_id";
+
     $result = mysqli_query($conn, $sql);
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -161,6 +174,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <div class="dynamic-input">
                                 <input type="text" class="form-control" name="ingredients[]" value="<?php echo $ingredient['Ingredient']; ?>" required>
                                 <input type="text" class="form-control" name="quantities[]" value="<?php echo $ingredient['Quantity']; ?>" required>
+                                <select class="form-select" name="units[]" aria-label="SI Units" onclick="populateDropdown(this)">
+                                    <!-- todo: set the default value of units when fetching data -->
+                                </select>
                                 <button type="button" class="btn-close" onclick="removeElement(this)" aria-label="Close"></button>
                             </div>
                         <?php endforeach; ?>
@@ -194,6 +210,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             input.innerHTML = `
                 <input type="text" class="form-control" name="ingredients[]" placeholder="Enter ingredient" required>
                 <input type="text" class="form-control" name="quantities[]" placeholder="Enter quantity" required>
+                <select class="form-select" name="units[]" aria-label="SI Units" onclick="populateDropdown(this)">
+                </select>
                 <button type="button" class="btn-close" onclick="removeElement(this)" aria-label="Close"></button>
             `;
             container.appendChild(input);
@@ -209,6 +227,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             `;
             container.appendChild(input);
         }
+
+        // add instruction row js functions
+        function addInstruction() {
+            var container = document.getElementById('instructions');
+            var input = document.createElement('div');
+            input.className = 'dynamic-input';
+            input.innerHTML = `
+                <input type="text" class="form-control" name="instructions[]" placeholder="Enter instruction" required>
+                <button type="button" class="btn-close" onclick="removeElement(this)" aria-label="Close"></button>
+            `;
+            container.appendChild(input);
+        }
+
+        // Pass PHP array to JavaScript
+        var units_js = <?php echo json_encode($units); ?>;
+        console.log(units_js);
+
+        // Function to populate units dropdowm
+        function populateDropdown(element) {
+            // appendOptions.call(element, units_js);
+            if (element.querySelector('option') == null) {
+                units_js.forEach(function(x) {
+                    var option = document.createElement('option');
+                    option.value = x.UnitID;
+                    option.textContent = x.Unit;
+                    element.appendChild(option);
+                });
+            }
+        }
+
+        // Call the function after the DOM is loaded
+        document.addEventListener('DOMContentLoaded', populateDropdown);
 
         function removeElement(element) {
             element.parentElement.remove();

@@ -1,3 +1,14 @@
+<?php
+session_start();
+include 'includes/db.php';
+
+$units_sql = "SELECT * FROM units";
+$units_result = mysqli_query($conn, $units_sql);
+while ($units_row = mysqli_fetch_assoc($units_result)) {
+    $units[] = $units_row;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,21 +57,16 @@
                     <div class="dynamic-input">
                         <input type="text" class="form-control" name="ingredients[]" placeholder="Enter ingredient" required>
                         <input type="text" class="form-control" name="quantities[]" placeholder="Enter quantity" required>
-                        <input type="text" class="form-control" name="units[]" placeholder="Unit" list="unit-options">
-                        <datalist id="unit-options">
-                            <option value="gm">
-                            <option value="oz">
-                            <option value="ml">
-                            <option value="l">
-                            <option value="lb">
-                        </datalist>
+                        <select class="form-select" name="units[]" aria-label="SI Units" onclick="populateDropdown(this)">
+
+                        </select>
                         <button type="button" class="btn-close" onclick="removeElement(this)" aria-label="Close"></button>
                     </div>
                 </div>
                 <button type="button" class="btn btn-secondary" onclick="addIngredient()">Add Ingredient</button>
             </div>
             <div class="form-group">
-                <label class="mb-2 fs-4"  for="instructions">Instructions</label>
+                <label class="mb-2 fs-4" for="instructions">Instructions</label>
                 <div id="instructions">
                     <div class="dynamic-input">
                         <input type="text" class="form-control" name="instructions[]" placeholder="Enter instruction" required>
@@ -73,6 +79,7 @@
         </form>
     </div>
     <script>
+        // Add Ingredient row js function
         function addIngredient() {
             var container = document.getElementById('ingredients');
             var input = document.createElement('div');
@@ -80,19 +87,14 @@
             input.innerHTML = `
                 <input type="text" class="form-control" name="ingredients[]" placeholder="Enter ingredient" required>
                 <input type="text" class="form-control" name="quantities[]" placeholder="Enter quantity" required>
-                <input type="text" class="form-control" name="units[]" placeholder="Unit" list="unit-options">
-                        <datalist id="unit-options">
-                            <option value="gm">
-                            <option value="oz">
-                            <option value="ml">
-                            <option value="l">
-                            <option value="lb">
-                        </datalist>
+                <select class="form-select" name="units[]" aria-label="SI Units" onclick="populateDropdown(this)">
+                </select>
                 <button type="button" class="btn-close" onclick="removeElement(this)" aria-label="Close"></button>
             `;
             container.appendChild(input);
         }
 
+        // add instruction row js functions
         function addInstruction() {
             var container = document.getElementById('instructions');
             var input = document.createElement('div');
@@ -104,12 +106,33 @@
             container.appendChild(input);
         }
 
+        // Pass PHP array to JavaScript
+        var units_js = <?php echo json_encode($units); ?>;
+        console.log(units_js);
+
+        // Function to populate units dropdowm
+        function populateDropdown(element) {
+            // appendOptions.call(element, units_js);
+            if (element.querySelector('option') == null) {
+                units_js.forEach(function(x) {
+                    var option = document.createElement('option');
+                    option.value = x.UnitID;
+                    option.textContent = x.Unit;
+                    element.appendChild(option);
+                });
+            }
+        }
+
+        // Call the function after the DOM is loaded
+        document.addEventListener('DOMContentLoaded', populateDropdown);
+
+        // remove (this) referenced eletement
         function removeElement(element) {
             element.parentElement.remove();
         }
 
         document.getElementById('recipeForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
+            event.preventDefault();
             this.submit();
         });
     </script>

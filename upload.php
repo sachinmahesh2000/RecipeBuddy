@@ -7,6 +7,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = $_POST['description'];
     $ingredients = $_POST['ingredients'];
     $instructions = $_POST['instructions'];
+    $units = $_POST['units'];
+    echo "<pre>";
+    print_r($units);
+    echo "</pre>";
     $quantity = $_POST['quantities'];
     $image = $_FILES['image']['tmp_name'];
     $image_name = $_FILES['image']['name'];
@@ -25,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $sql = "INSERT INTO ingredients (Ingredient) VALUES ('$ingredient') ON DUPLICATE KEY UPDATE IngredientID=LAST_INSERT_ID(IngredientID)";
                     if ($conn->query($sql) === TRUE) {
                         $ingredient_id = $conn->insert_id;
-                        $quantity_sql = "UPDATE ingredients SET Quantity = $quantity[$index] WHERE IngredientID = $ingredient_id";
                         $sql = "INSERT INTO recipe_ingredients (RecipeID, IngredientID) VALUES ('$recipe_id', '$ingredient_id')";
-                        $conn->query($quantity_sql);
                         $conn->query($sql);
+                        $units_sql = "INSERT INTO recipe_ingredients_units (UnitID, IngredientID, RecipeID, Quantity) VALUES ($units[$index], $ingredient_id, $recipe_id, $quantity[$index])";
+                        $conn->query($units_sql);
                     }
                 }
 
@@ -41,6 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $conn->query($recipeInstruction_sql);
                     }
                 }
+
+                // Insert into recipe_ingredients_units
+                // foreach ($units as $index => $unit) {
+                //     $sql = "INSERT INTO recipe_ingredients_units (UnitID, IngredientID, RecipeID, Quantity) VALUES ($units[$index], $ingredient_id, $recipe_id, $quantity[$index])";
+                //     if ($conn->query($sql) === TRUE) {
+                //         $unit_id = $conn->insert_id;
+                //     }
+                // }
 
                 // Insert into recipe_users table 
                 $recipeUsers_sql = "INSERT INTO recipe_users (RecipeID, UserID) VALUES ('$recipe_id', '$user_id')";
