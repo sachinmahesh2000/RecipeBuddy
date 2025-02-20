@@ -473,6 +473,7 @@ $result = mysqli_query($conn, $sql);
 
 
   <!-- User Recent Recipes Start -->
+  <?php if (isset($_SESSION['Username']) && $_SESSION['loggedin'] == true): ?>
   <div class="container py-4 py-xl-5" style="border-bottom: 1px solid var(--bs-primary)">
     <div class="row mb-5">
       <div class="col-md-8 col-xl-6 text-center mx-auto">
@@ -482,7 +483,6 @@ $result = mysqli_query($conn, $sql);
       </div>
     </div>
     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
-      <?php if (isset($_SESSION['Username']) && $_SESSION['loggedin'] == true): ?>
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <!-- Dynamic Recipe Card -->
           <div class="col">
@@ -519,13 +519,13 @@ $result = mysqli_query($conn, $sql);
             </div>
           </div>
         <?php endwhile; ?>
-      <?php endif; ?>
-    </div>
-    <div class="row text-center" style="margin-top: 20px">
-      <div class="col">
-        <a class="btn btn-primary btn-lg" role="button" style="padding-left: 26px; padding-right: 26px" href="mybook.php">My Book</a>
       </div>
-    </div>
+      <div class="row text-center" style="margin-top: 20px">
+        <div class="col">
+          <a class="btn btn-primary btn-lg" role="button" style="padding-left: 26px; padding-right: 26px" href="mybook.php">My Book</a>
+        </div>
+      </div>
+      <?php endif; ?>
   </div>
   <!-- User Recent Recipes End -->
 
