@@ -95,50 +95,46 @@ $result = mysqli_query($conn, $sql);
         <a href="createrecipe.php" class="btn btn-primary">Create</a>
       </div>
     </div>
-    <?php if ($result->num_rows == 0): ?>
-      <h1 class="display-4 text-danger">Nothing delicious yet, How about create one</h1>
-    <?php else: ?>
-      <div
-        class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3"
-        style="margin-bottom: 25px">
-        <?php while ($row = mysqli_fetch_assoc($result)): ?>
-          <!-- Dynamic Recipe Card -->
-          <div class="col">
-            <div
-              class="card"
-              style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
-              <a href="showrecipe.php?id=<?php echo $row['RecipeID'] ?>">
+    <div
+      class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3"
+      style="margin-bottom: 25px">
+      <?php while ($row = mysqli_fetch_assoc($result)): ?>
+        <!-- Dynamic Recipe Card -->
+        <div class="col">
+          <div
+            class="card"
+            style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
+            <a href="showrecipe.php?id=<?php echo $row['RecipeID'] ?>">
+              <img
+                class="card-img-top w-100 d-block fit-cover"
+                style="height: 200px"
+                src="<?php echo $row['RecipeImagePath']; ?>"
+                alt="<?php echo $row['Title']; ?>" />
+            </a>
+            <div class="card-body p-4">
+              <h4 class="card-title"><?php echo $row['Title']; ?></h4>
+              <p class="card-text overflow-hidden">
+                <?php echo $row['Description']; ?>
+              </p>
+              <div class="d-flex">
                 <img
-                  class="card-img-top w-100 d-block fit-cover"
-                  style="height: 200px"
-                  src="<?php echo $row['RecipeImagePath']; ?>"
-                  alt="<?php echo $row['Title']; ?>" />
-              </a>
-              <div class="card-body p-4">
-                <h4 class="card-title"><?php echo $row['Title']; ?></h4>
-                <p class="card-text overflow-hidden">
-                  <?php echo $row['Description']; ?>
-                </p>
-                <div class="d-flex">
-                  <img
-                    class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                    width="50"
-                    height="50"
-                    src="<?php echo $row['UserImagePath']; ?>" />
-                  <div class="d-flex align-items-center">
-                    <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
-                  </div>
+                  class="rounded-circle flex-shrink-0 me-3 fit-cover"
+                  width="50"
+                  height="50"
+                  src="<?php echo $row['UserImagePath']; ?>" />
+                <div class="d-flex align-items-center">
+                  <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
                 </div>
-                <div class="d-flex mt-2">
-                  <a href="editrecipe.php?id=<?php echo $row['RecipeID'] ?>" class="btn btn-primary mx-2">Edit</a>
-                  <a href="deleterecipe.php?id=<?php echo $row['RecipeID'] ?>" onclick="alert('Do you Really want to delete this delicious recipe?')" class="btn btn-danger">Delete</a>
-                </div>
+              </div>
+              <div class="d-flex mt-2">
+                <a href="editrecipe.php?id=<?php echo $row['RecipeID'] ?>" class="btn btn-primary mx-2">Edit</a>
+                <a href="deleterecipe.php?id=<?php echo $row['RecipeID'] ?>" onclick="alert('Do you Really want to delete this delicious recipe?')" class="btn btn-danger">Delete</a>
               </div>
             </div>
           </div>
-        <?php endwhile; ?>
-      </div>
-    <?php endif; ?>
+        </div>
+      <?php endwhile; ?>
+    </div>
   </div>
 
   <!-- EDIT | DELETE BUTTONS
