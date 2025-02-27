@@ -2,6 +2,7 @@
 include 'includes/db.php';
 session_start();
 $id = "";
+$userID = $_SESSION['userID'];
 $ingredientsArray = array();
 
 
@@ -29,12 +30,22 @@ if (isset($_GET['id'])) {
                 JOIN ingredients ON recipe_ingredients_units.IngredientID = ingredients.IngredientID
                 WHERE recipe.RecipeID = $id";
 
+  $likes_sql = "SELECT COUNT(RecipeID) AS 'Likes' FROM recipe_likes WHERE RecipeID = $id";
+
+  $already_liked_sql = "SELECT COUNT(RecipeID) AS 'Likes' FROM recipe_likes WHERE RecipeID = $id and UserID = $userID ";
+
   $ingredient_result = mysqli_query($conn, $ingredient_sql);
   $ingredient_row = mysqli_fetch_assoc($ingredient_result);
   $instructions_result = mysqli_query($conn, $instructions_sql);
   $users_result = mysqli_query($conn, $users_sql);
   $users_row = mysqli_fetch_assoc($users_result);
   $units_result = mysqli_query($conn, $units_sql);
+  $likes_result = mysqli_query($conn, $likes_sql);
+  $likes_row = mysqli_fetch_assoc($likes_result);
+  $already_liked_result = mysqli_query($conn, $already_liked_sql);
+  $already_liked_row = mysqli_fetch_assoc($already_liked_result);
+
+  $like_class = $already_liked_row['Likes'] == 1 ? "text-danger" : "";
 
 
   if ($ingredient_result) {
@@ -62,7 +73,33 @@ if (isset($_GET['id'])) {
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.min.css" />
+  <style>
+    .border-heart {
+      color: transparent;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: red;
+    }
+  </style>
+  <script>
+        function addLike() {
+          console.log("clicked");
+            var xhr = new XMLHttpRequest();
+            console.log(xhr);
+            xhr.open('POST', 'addLike.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            // xhr.onreadystatechange = function() {
+            //     if (xhr.readyState === 4 && xhr.status === 200) {
+                    
+            //     }
+            // };
+            debugger;
+            xhr.send('recipeID=<?php echo $id;?>&userID=<?php echo $userID?>'); // Send any necessary parameters
+            location.reload();
+        }
+    </script>
 </head>
 
 <body style="font-family: 'Abhaya Libre', serif">
@@ -133,6 +170,12 @@ if (isset($_GET['id'])) {
               src="<?php echo $users_row['UserImagePath']; ?>" />
           </div>
         </div>
+      </div>
+    </div>
+    <div class="container mb-2">
+      <div class="d-flex align-items-center">
+        <i id="heartIcon" class="border-heart fas fa-heart fa-2x <?php echo $like_class; ?> mr-2" onclick="addLike()"></i>
+        <span id="vote-count" class="fs-1 ms-2"><?php echo $likes_row['Likes'];?></span>
       </div>
     </div>
     <div class="d-flex row flex-lg-row flex-xs-column flex-sm-column ">
