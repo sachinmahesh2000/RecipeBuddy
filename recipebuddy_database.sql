@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2025 at 02:56 AM
+-- Generation Time: Feb 27, 2025 at 10:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -107,7 +107,15 @@ INSERT INTO `ingredients` (`IngredientID`, `Ingredient`) VALUES
 (81, 'lime'),
 (82, 'Rice'),
 (83, 'Romaine'),
-(84, 'Black Beans');
+(84, 'Black Beans'),
+(85, 'Bread'),
+(86, 'Cheese'),
+(87, 'Tomatoes'),
+(88, 'Butter'),
+(89, 'Wheat Flour'),
+(90, 'Egg'),
+(91, 'Sugar'),
+(92, 'Baking Powder');
 
 -- --------------------------------------------------------
 
@@ -187,7 +195,13 @@ INSERT INTO `instructions` (`InstructionID`, `Instruction`) VALUES
 (74, 'wrw'),
 (75, 'cook rice'),
 (76, 'cook beans'),
-(77, 'Food ready');
+(77, 'Food ready'),
+(78, 'spread butter on bread'),
+(79, 'put tomatoes on one side of bread'),
+(80, 'roast on both sides of bread'),
+(81, 'Mix dough with eggs'),
+(82, 'add baking powder'),
+(83, 'bake');
 
 -- --------------------------------------------------------
 
@@ -214,7 +228,9 @@ INSERT INTO `recipe` (`RecipeID`, `Title`, `Description`, `RecipeImagePath`, `Re
 (5, 'Salad Bowl', 'asdf', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:13:34'),
 (6, 'fdfsdfs', 'fsdfsdf', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:15:41'),
 (8, 'New recipe', 'i dont know', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:20:55'),
-(23, 'Salad Bowl', 'anything', 'assets/img/brooke-lark-jUPOXXRNdcA-unsplash.jpg', 'brooke-lark-jUPOXXRNdcA-unsplash.jpg', '2025-02-17 20:52:28');
+(23, 'Salad Bowl', 'anything', 'assets/img/brooke-lark-jUPOXXRNdcA-unsplash.jpg', 'brooke-lark-jUPOXXRNdcA-unsplash.jpg', '2025-02-17 20:52:28'),
+(24, 'Sandwhich', 'Cheesy delicious sandwhich', 'assets/img/recpie-6.jpg', 'recpie-6.jpg', '2025-02-20 15:28:20'),
+(25, 'Cake', 'Delicious Cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2025-02-20 15:58:22');
 
 -- --------------------------------------------------------
 
@@ -238,7 +254,15 @@ INSERT INTO `recipe_ingredients` (`Recipe_Ingredients_ID`, `RecipeID`, `Ingredie
 (81, 23, 81),
 (82, 23, 82),
 (83, 23, 83),
-(84, 23, 84);
+(84, 23, 84),
+(85, 24, 85),
+(86, 24, 86),
+(87, 24, 87),
+(88, 24, 88),
+(89, 25, 89),
+(90, 25, 90),
+(91, 25, 91),
+(92, 25, 92);
 
 -- --------------------------------------------------------
 
@@ -262,7 +286,15 @@ INSERT INTO `recipe_ingredients_units` (`Recipe_Ingredient_Unit_ID`, `Ingredient
 (10, 81, 4, 23, 10),
 (11, 82, 4, 23, 400),
 (12, 83, 4, 23, 200),
-(13, 84, 4, 23, 300);
+(13, 84, 4, 23, 300),
+(14, 85, 4, 24, 500),
+(15, 86, 4, 24, 400),
+(16, 87, 4, 24, 200),
+(17, 88, 4, 24, 100),
+(18, 89, 4, 25, 400),
+(19, 90, 4, 25, 400),
+(20, 91, 4, 25, 100),
+(21, 92, 4, 25, 50);
 
 -- --------------------------------------------------------
 
@@ -283,7 +315,25 @@ CREATE TABLE `recipe_instructions` (
 INSERT INTO `recipe_instructions` (`Recipe_Instructions_ID`, `RecipeID`, `InstructionsID`) VALUES
 (66, 23, 75),
 (67, 23, 76),
-(68, 23, 77);
+(68, 23, 77),
+(69, 24, 78),
+(70, 24, 79),
+(71, 24, 80),
+(72, 25, 81),
+(73, 25, 82),
+(74, 25, 83);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recipe_likes`
+--
+
+CREATE TABLE `recipe_likes` (
+  `Recipe_Likes_ID` int(11) NOT NULL,
+  `RecipeID` int(11) NOT NULL,
+  `UserID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -302,7 +352,9 @@ CREATE TABLE `recipe_users` (
 --
 
 INSERT INTO `recipe_users` (`Recipe_Users_ID`, `RecipeID`, `UserID`) VALUES
-(19, 23, 4);
+(19, 23, 4),
+(20, 24, 3),
+(21, 25, 3);
 
 -- --------------------------------------------------------
 
@@ -396,6 +448,14 @@ ALTER TABLE `recipe_instructions`
   ADD KEY `InstructionsID` (`InstructionsID`);
 
 --
+-- Indexes for table `recipe_likes`
+--
+ALTER TABLE `recipe_likes`
+  ADD PRIMARY KEY (`Recipe_Likes_ID`),
+  ADD KEY `Recipe_Likes_User` (`UserID`),
+  ADD KEY `RecipeID` (`RecipeID`,`UserID`) USING BTREE;
+
+--
 -- Indexes for table `recipe_users`
 --
 ALTER TABLE `recipe_users`
@@ -423,43 +483,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `instructions`
 --
 ALTER TABLE `instructions`
-  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `recipe_ingredients`
 --
 ALTER TABLE `recipe_ingredients`
-  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `recipe_ingredients_units`
 --
 ALTER TABLE `recipe_ingredients_units`
-  MODIFY `Recipe_Ingredient_Unit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Recipe_Ingredient_Unit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `recipe_instructions`
 --
 ALTER TABLE `recipe_instructions`
-  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+
+--
+-- AUTO_INCREMENT for table `recipe_likes`
+--
+ALTER TABLE `recipe_likes`
+  MODIFY `Recipe_Likes_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `recipe_users`
 --
 ALTER TABLE `recipe_users`
-  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `units`
@@ -498,6 +564,13 @@ ALTER TABLE `recipe_ingredients_units`
 ALTER TABLE `recipe_instructions`
   ADD CONSTRAINT `Recipe_Instructions_Instructions` FOREIGN KEY (`InstructionsID`) REFERENCES `instructions` (`InstructionID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Recipe_Instructions_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `recipe_likes`
+--
+ALTER TABLE `recipe_likes`
+  ADD CONSTRAINT `Recipe_Likes_Recipe` FOREIGN KEY (`RecipeID`) REFERENCES `recipe` (`RecipeID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Recipe_Likes_User` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `recipe_users`
