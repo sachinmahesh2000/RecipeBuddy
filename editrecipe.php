@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $quantities = $_POST['quantities'];
     $instructions = $_POST['instructions'];
     $image_path = $recipe['image_path'];
+    $visibility = $_POST['visibilityRadio'];
 
     if ($_FILES['image']['tmp_name']) {
         $image_name = $_FILES['image']['name'];
@@ -72,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
 
         //update recipe
-        $sql = "UPDATE recipe SET Title = '$title', Description = '$description', RecipeImagePath = '$image_path', RecipeImageName = '$image_name' WHERE RecipeID = $recipe_id";
+        $sql = "UPDATE recipe SET Title = '$title', Description = '$description', RecipeImagePath = '$image_path', RecipeImageName = '$image_name' isPublic = '$visibility' WHERE RecipeID = $recipe_id";
         if ($conn->query($sql) !== TRUE) {
             throw new Exception("Error updating recipe: " . $conn->error);
         }
@@ -166,6 +167,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="description" class="form-label">Recipe Description</label>
                     <textarea class="form-control" id="description" name="description" required><?php echo $recipe['Description']; ?>
                     </textarea>
+                </div>
+                <label class="mb-2 fs-4">Visibility</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="visibilityRadio" id="publicRadioID" value="1" <?php if($recipe['isPublic'] == 1) echo "checked";?>>
+                    <label class="form-check-label" for="publicRadioID">
+                        Public
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="visibilityRadio" id="privateRadioID" value="0" <?php if($recipe['isPublic'] == 0) echo "checked";?>>
+                    <label class="form-check-label" for="privateRadioID">
+                        Private
+                    </label>
                 </div>
                 <div class="mb-3">
                     <label class="mb-2" for="ingredients">Ingredients</label>

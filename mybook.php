@@ -8,6 +8,7 @@ $sql = "SELECT
         recipe.RecipeImagePath,
         recipe.Title,
         recipe.Description,
+        recipe.isPublic,
         users.UserID,
         users.Username,
         users.UserImagePath
@@ -33,6 +34,7 @@ $result = mysqli_query($conn, $sql);
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/styles.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body style="font-family: 'Abhaya Libre', serif">
@@ -119,14 +121,26 @@ $result = mysqli_query($conn, $sql);
                 <p class="card-text overflow-hidden">
                   <?php echo $row['Description']; ?>
                 </p>
-                <div class="d-flex">
-                  <img
-                    class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                    width="50"
-                    height="50"
-                    src="<?php echo $row['UserImagePath']; ?>" />
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex">
+                    <img
+                      class="rounded-circle flex-shrink-0 me-3 fit-cover"
+                      width="50"
+                      height="50"
+                      src="<?php echo $row['UserImagePath']; ?>" />
+                    <div class="d-flex align-items-center">
+                      <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
+                    </div>
+                  </div>
                   <div class="d-flex align-items-center">
-                    <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
+                    <?php 
+                      if($row['isPublic']== 1){
+                        echo '<i class="bi bi-globe2 fs-2"></i>';
+                      }
+                      else{
+                      echo '<i class="bi bi-file-earmark-lock fs-2"></i>';
+                      }
+                    ?>
                   </div>
                 </div>
                 <div class="d-flex mt-2">

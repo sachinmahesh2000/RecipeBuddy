@@ -121,13 +121,15 @@ $result = mysqli_query($conn, $sql);
                 <?php echo $row['Description']; ?>
               </p>
               <div class="d-flex">
-                <img
-                  class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                  width="50"
-                  height="50"
-                  src="<?php echo $row['UserImagePath']; ?>" />
-                <div class="d-flex align-items-center">
-                  <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
+                <div class="d-flex">
+                  <img
+                    class="rounded-circle flex-shrink-0 me-3 fit-cover"
+                    width="50"
+                    height="50"
+                    src="<?php echo $row['UserImagePath']; ?>" />
+                  <div class="d-flex align-items-center">
+                    <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
+                  </div>
                 </div>
               </div>
             </div>

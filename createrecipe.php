@@ -51,6 +51,19 @@ while ($units_row = mysqli_fetch_assoc($units_result)) {
                 <label class="mb-2 fs-4" for="description">Recipe Description</label>
                 <textarea class="form-control" id="description" name="description" placeholder="Enter recipe description" required></textarea>
             </div>
+            <label class="mb-2 fs-4">Visibility</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="visibilityRadio" id="publicRadioID" value="1" checked>
+                <label class="form-check-label" for="publicRadioID">
+                    Public
+                </label>
+            </div>
+            <div class="form-check">
+            <input class="form-check-input" type="radio" name="visibilityRadio" id="privateRadioID" value="0">
+                <label class="form-check-label" for="publicRadioID">
+                    Private
+                </label>
+            </div>
             <div class="form-group">
                 <label class="mb-2 fs-4" for="ingredients">Ingredients</label>
                 <div id="ingredients">

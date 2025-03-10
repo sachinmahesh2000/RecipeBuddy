@@ -8,9 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ingredients = $_POST['ingredients'];
     $instructions = $_POST['instructions'];
     $units = $_POST['units'];
-    echo "<pre>";
-    print_r($units);
-    echo "</pre>";
+    $visibility = $_POST['visibilityRadio'];
     $quantity = $_POST['quantities'];
     $image = $_FILES['image']['tmp_name'];
     $image_name = $_FILES['image']['name'];
@@ -21,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $conn->begin_transaction();
 
         try {
-            $sql = "INSERT INTO recipe (Title, Description, RecipeImagePath, RecipeImageName) VALUES ('$title', '$description', '$image_path', '$image_name')";
+            $sql = "INSERT INTO recipe (Title, Description, RecipeImagePath, RecipeImageName, isPublic) VALUES ('$title', '$description', '$image_path', '$image_name', '$visibility')";
             if ($conn->query($sql) === TRUE) {
                 $recipe_id = $conn->insert_id;
 
