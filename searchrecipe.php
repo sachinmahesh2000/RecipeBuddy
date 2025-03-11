@@ -6,6 +6,13 @@ $recipes = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $search = $_POST['search'];
+  $keywords = explode(" ", $search);
+  $conditions = [];
+
+  foreach ($keywords as $keyword) {
+    $conditions[] = " recipe.Title LIKE '%".$keyword."%'";
+  }
+
   $search_sql = "SELECT
         recipe.RecipeID,
         recipe.RecipeImagePath,
@@ -18,7 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           `recipe_users`
         JOIN recipe ON recipe_users.RecipeID = recipe.RecipeID
         JOIN users ON recipe_users.UserID = users.UserID
-        WHERE recipe.Title LIKE '%$search%'";
+        WHERE ";
+        // WHERE recipe.Title LIKE '%$search%'
+    
+  $search_sql .= implode(" OR", $conditions);
   $search_result = mysqli_query($conn, $search_sql);
   if ($search_result) {
     while ($search_row = mysqli_fetch_assoc($search_result)) {
@@ -96,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h1 class="display-4" style="color: var(--bs-primary)">
           Search Worldwide Recipes
         </h1>
-        <form method="POST" action="searchrecipes.php" id="searchForm">
+        <form method="POST" action="searchrecipe.php" id="searchForm">
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search for..." name="search" required />
             <button class="btn btn-primary" type="submit">Search</button>
@@ -130,10 +140,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="d-flex">
                   <div class="d-flex">
                     <img
-                    class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                    width="50"
-                    height="50"
-                    src="<?php echo $recipe['UserImagePath']; ?>" />
+                      class="rounded-circle flex-shrink-0 me-3 fit-cover"
+                      width="50"
+                      height="50"
+                      src="<?php echo $recipe['UserImagePath']; ?>" />
                     <div class="d-flex align-items-center">
                       <p class="fw-bold mb-0"><?php echo $recipe['Username']; ?></p>
                     </div>
