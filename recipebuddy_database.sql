@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2025 at 10:06 PM
+-- Generation Time: Mar 11, 2025 at 05:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -115,7 +115,9 @@ INSERT INTO `ingredients` (`IngredientID`, `Ingredient`) VALUES
 (89, 'Wheat Flour'),
 (90, 'Egg'),
 (91, 'Sugar'),
-(92, 'Baking Powder');
+(92, 'Baking Powder'),
+(93, 'wheat dough'),
+(94, 'Water');
 
 -- --------------------------------------------------------
 
@@ -201,7 +203,8 @@ INSERT INTO `instructions` (`InstructionID`, `Instruction`) VALUES
 (80, 'roast on both sides of bread'),
 (81, 'Mix dough with eggs'),
 (82, 'add baking powder'),
-(83, 'bake');
+(83, 'bake'),
+(84, 'mix everything');
 
 -- --------------------------------------------------------
 
@@ -215,22 +218,24 @@ CREATE TABLE `recipe` (
   `Description` varchar(400) DEFAULT NULL,
   `RecipeImagePath` varchar(500) NOT NULL,
   `RecipeImageName` varchar(500) NOT NULL,
-  `DateCreated` datetime NOT NULL DEFAULT current_timestamp()
+  `DateCreated` datetime NOT NULL DEFAULT current_timestamp(),
+  `isPublic` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `recipe`
 --
 
-INSERT INTO `recipe` (`RecipeID`, `Title`, `Description`, `RecipeImagePath`, `RecipeImageName`, `DateCreated`) VALUES
-(3, 'Healthy Salad', 'nice salad', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:01:23'),
-(4, 'Cake', 'nice cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2024-12-06 13:08:45'),
-(5, 'Salad Bowl', 'asdf', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:13:34'),
-(6, 'fdfsdfs', 'fsdfsdf', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:15:41'),
-(8, 'New recipe', 'i dont know', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:20:55'),
-(23, 'Salad Bowl', 'anything', 'assets/img/brooke-lark-jUPOXXRNdcA-unsplash.jpg', 'brooke-lark-jUPOXXRNdcA-unsplash.jpg', '2025-02-17 20:52:28'),
-(24, 'Sandwhich', 'Cheesy delicious sandwhich', 'assets/img/recpie-6.jpg', 'recpie-6.jpg', '2025-02-20 15:28:20'),
-(25, 'Cake', 'Delicious Cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2025-02-20 15:58:22');
+INSERT INTO `recipe` (`RecipeID`, `Title`, `Description`, `RecipeImagePath`, `RecipeImageName`, `DateCreated`, `isPublic`) VALUES
+(3, 'Healthy Salad', 'nice salad', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:01:23', 0),
+(4, 'Cake', 'nice cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2024-12-06 13:08:45', 0),
+(5, 'Salad Bowl', 'asdf', 'assets/img/recpie-1.jpg', 'recpie-1.jpg', '2024-12-06 13:13:34', 0),
+(6, 'fdfsdfs', 'fsdfsdf', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:15:41', 0),
+(8, 'New recipe', 'i dont know', 'assets/img/57989f2a2e186e38bf93429aa395120c.jpg', '57989f2a2e186e38bf93429aa395120c.jpg', '2024-12-06 13:20:55', 0),
+(23, 'Salad Bowl', 'anything', 'assets/img/brooke-lark-jUPOXXRNdcA-unsplash.jpg', 'brooke-lark-jUPOXXRNdcA-unsplash.jpg', '2025-02-17 20:52:28', 0),
+(24, 'Sandwhich', 'Cheesy delicious sandwhich', 'assets/img/recpie-6.jpg', 'recpie-6.jpg', '2025-02-20 15:28:20', 0),
+(25, 'Cake', 'Delicious Cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2025-02-20 15:58:22', 0),
+(26, 'Bread', 'asdf', 'assets/img/kate-remmer-RZn4_FzNUCY-unsplash.jpg', 'kate-remmer-RZn4_FzNUCY-unsplash.jpg', '2025-03-10 12:43:01', 1);
 
 -- --------------------------------------------------------
 
@@ -262,7 +267,9 @@ INSERT INTO `recipe_ingredients` (`Recipe_Ingredients_ID`, `RecipeID`, `Ingredie
 (89, 25, 89),
 (90, 25, 90),
 (91, 25, 91),
-(92, 25, 92);
+(92, 25, 92),
+(93, 26, 93),
+(94, 26, 94);
 
 -- --------------------------------------------------------
 
@@ -294,7 +301,9 @@ INSERT INTO `recipe_ingredients_units` (`Recipe_Ingredient_Unit_ID`, `Ingredient
 (18, 89, 4, 25, 400),
 (19, 90, 4, 25, 400),
 (20, 91, 4, 25, 100),
-(21, 92, 4, 25, 50);
+(21, 92, 4, 25, 50),
+(22, 93, 4, 26, 500),
+(23, 94, 3, 26, 200);
 
 -- --------------------------------------------------------
 
@@ -321,7 +330,8 @@ INSERT INTO `recipe_instructions` (`Recipe_Instructions_ID`, `RecipeID`, `Instru
 (71, 24, 80),
 (72, 25, 81),
 (73, 25, 82),
-(74, 25, 83);
+(74, 25, 83),
+(75, 26, 84);
 
 -- --------------------------------------------------------
 
@@ -334,6 +344,20 @@ CREATE TABLE `recipe_likes` (
   `RecipeID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `recipe_likes`
+--
+
+INSERT INTO `recipe_likes` (`Recipe_Likes_ID`, `RecipeID`, `UserID`) VALUES
+(25, 23, 3),
+(26, 23, 3),
+(27, 26, 3),
+(28, 26, 3),
+(29, 26, 3),
+(30, 26, 3),
+(31, 26, 3),
+(32, 26, 3);
 
 -- --------------------------------------------------------
 
@@ -354,7 +378,8 @@ CREATE TABLE `recipe_users` (
 INSERT INTO `recipe_users` (`Recipe_Users_ID`, `RecipeID`, `UserID`) VALUES
 (19, 23, 4),
 (20, 24, 3),
-(21, 25, 3);
+(21, 25, 3),
+(22, 26, 3);
 
 -- --------------------------------------------------------
 
@@ -483,49 +508,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `instructions`
 --
 ALTER TABLE `instructions`
-  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `recipe_ingredients`
 --
 ALTER TABLE `recipe_ingredients`
-  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `recipe_ingredients_units`
 --
 ALTER TABLE `recipe_ingredients_units`
-  MODIFY `Recipe_Ingredient_Unit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Recipe_Ingredient_Unit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `recipe_instructions`
 --
 ALTER TABLE `recipe_instructions`
-  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `recipe_likes`
 --
 ALTER TABLE `recipe_likes`
-  MODIFY `Recipe_Likes_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `Recipe_Likes_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `recipe_users`
 --
 ALTER TABLE `recipe_users`
-  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `units`

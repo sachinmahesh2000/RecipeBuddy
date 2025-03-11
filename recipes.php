@@ -9,6 +9,7 @@ $sql = "SELECT
         recipe.RecipeImagePath,
         recipe.Title,
         recipe.Description,
+        recipe.isPublic,
         users.UserID,
         users.Username,
         users.UserImagePath
@@ -103,6 +104,7 @@ $result = mysqli_query($conn, $sql);
       style="margin-bottom: 25px" id="recipeBlock">
       <?php while ($row = mysqli_fetch_assoc($result)): ?>
         <!-- Dynamic Recipe Card -->
+        <?php if ($row['isPublic'] == 1):?>
         <div class="col">
           <div
             class="card"
@@ -135,6 +137,7 @@ $result = mysqli_query($conn, $sql);
             </div>
           </div>
         </div>
+        <?php endif;?>
       <?php endwhile; ?>
     </div>
     <!-- <div
