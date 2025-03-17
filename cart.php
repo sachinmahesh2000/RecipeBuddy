@@ -1,5 +1,22 @@
 <?php
 session_start();
+include 'includes/db.php';
+
+$user_id = $_SESSION['userID'];
+$sql = "SELECT users.UserID, ingredients.Ingredient, cart.cartID, ingredients.IngredientID FROM cart 
+        JOIN users ON cart.UserID = users.UserID
+        JOIN ingredients ON cart.IngredientID = ingredients.IngredientID
+        WHERE users.UserID = $user_id";
+
+$result = mysqli_query($conn, $sql);
+if ($result && $result != null) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    if($row != null){
+      $ingredientArray[] = $row;
+    }
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -19,6 +36,18 @@ session_start();
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
+    <script>
+      //remove from cart function
+    function removeIngredient(ingredientId) {
+      console.log(ingredientId);
+      debugger;
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'removeIngredient.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send(`IngredientID=${ingredientId}&userID=<?php echo $user_id?>`); // Send any necessary parameters
+      location.reload();
+    }
+    </script>
   </head>
   <body>
   <nav
@@ -93,105 +122,35 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row" class="border-0">
-                          <div class="p-2">
-                            <img
-                              src="https://res.cloudinary.com/dnpbiimui/image/upload/v1733172822/xlvmrmk94vfmbj0a0z33.jpg"
-                              alt=""
-                              width="70"
-                              height="70"
-                              class="img rounded shadow-sm"
-                            />
-                            <div class="ml-3 d-inline-block align-middle">
-                              <h5 class="mb-0">
-                                <a
-                                  href="#"
-                                  class="text-dark d-inline-block align-middle"
-                                  >Parmesan Cheese</a
-                                >
-                              </h5>
+                      <?php if($ingredientArray != null):?>
+                        <?php foreach ($ingredientArray as $i):?>
+                        <tr>
+                          <th scope="row" class="border-0">
+                              <div class="ml-3 d-inline-block align-middle">
+                                <h5 class="mb-0">
+                                  <a
+                                    href="#"
+                                    class="text-dark d-inline-block align-middle"
+                                    ><?php echo $i['Ingredient'];?></a
+                                  >
+                                </h5>
+                              </div>
                             </div>
-                          </div>
-                        </th>
-                        <td class="border-0 align-middle">
-                          <strong>$2.99</strong>
-                        </td>
-                        <td class="border-0 align-middle">
-                          <strong>1</strong>
-                        </td>
-                        <td class="border-0 align-middle">
-                          <a href="#" class="text-dark"
-                            ><i class="fa fa-trash"></i
-                          ></a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="border-0">
-                          <div class="p-2">
-                            <img
-                              src="https://res.cloudinary.com/dnpbiimui/image/upload/v1733172822/whagitawqzdr1jpygojs.jpg"
-                              alt=""
-                              width="70"
-                              height="70"
-                              class="img rounded shadow-sm"
-                            />
-                            <div class="ml-3 d-inline-block align-middle">
-                              <h5 class="mb-0">
-                                <a
-                                  href="#"
-                                  class="text-dark d-inline-block align-middle"
-                                  >Pizza Dough</a
-                                >
-                              </h5>
-                            </div>
-                          </div>
-                        </th>
-                        <td class="border-0 align-middle">
-                          <strong>$1.49</strong>
-                        </td>
-                        <td class="border-0 align-middle">
-                          <strong>1</strong>
-                        </td>
-                        <td class="border-0 align-middle">
-                          <a href="#" class="text-dark"
-                            ><i class="fa fa-trash"></i
-                          ></a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="border-0">
-                          <div class="p-2">
-                            <img
-                              src="https://res.cloudinary.com/dnpbiimui/image/upload/v1733172822/zx6tkg2mpmk9vaqbqqyq.jpg"
-                              alt=""
-                              width="70"
-                              height="70"
-                              class="img rounded shadow-sm"
-                            />
-                            <div class="ml-3 d-inline-block align-middle">
-                              <h5 class="mb-0">
-                                <a
-                                  href="#"
-                                  class="text-dark d-inline-block align-middle"
-                                  >Mozzarella Cheese</a
-                                >
-                              </h5>
-                            </div>
-                          </div>
-                        </th>
-                        <td class="border-0 align-middle">
-                          <strong>$2.38</strong>
-                        </td>
-                        <td class="border-0 align-middle">
-                          <strong>1</strong>
-                        </td>
-                        <td class="border-0 align-middle">
-                          <a href="#" class="text-dark"
-                            ><i class="fa fa-trash"></i
-                          ></a>
-                        </td>
-                      </tr>
+                          </th>
+                          <td class="border-0 align-middle">
+                            <strong>$2.99</strong>
+                          </td>
+                          <td class="border-0 align-middle">
+                            <strong>1</strong>
+                          </td>
+                          <td class="border-0 align-middle">
+                            <a href="#" class="text-dark ms-4"
+                              ><i class="fa fa-trash" onclick="removeIngredient(<?php echo $i['IngredientID']?>)"></i
+                            ></a>
+                          </td>
+                        </tr>
+                        <?php endforeach;?>
+                      <?php endif;?>
                     </tbody>
                   </table>
                 </div>

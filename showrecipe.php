@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
                   JOIN users ON recipe_users.UserID = users.UserID
                   WHERE recipe.RecipeID = $id";
 
-  $units_sql = "SELECT recipe.RecipeID, Unit, Quantity, ingredients.Ingredient FROM recipe_ingredients_units
+  $units_sql = "SELECT recipe.RecipeID, Unit, Quantity, ingredients.Ingredient, ingredients.IngredientID FROM recipe_ingredients_units
                 JOIN recipe ON recipe_ingredients_units.RecipeID = recipe.RecipeID
                 JOIN units ON recipe_ingredients_units.UnitID = units.UnitID
                 JOIN ingredients ON recipe_ingredients_units.IngredientID = ingredients.IngredientID
@@ -84,21 +84,24 @@ if (isset($_GET['id'])) {
     }
   </style>
   <script>
-        function addLike() {
-          console.log("clicked");
-            var xhr = new XMLHttpRequest();
-            console.log(xhr);
-            xhr.open('POST', 'addLike.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            // xhr.onreadystatechange = function() {
-            //     if (xhr.readyState === 4 && xhr.status === 200) {
-                    
-            //     }
-            // };
-            debugger;
-            xhr.send('recipeID=<?php echo $id;?>&userID=<?php echo $userID?>'); // Send any necessary parameters
-            location.reload();
+    //add to cart function
+    function addToCart(ingredientId) {
+      console.log(ingredientId);
+      debugger;
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'add_to_cart.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send(`IngredientID=${ingredientId}&userID=<?php echo $userID?>`); // Send any necessary parameters
         }
+
+    // Like function
+    function addLike() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'addLike.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send('recipeID=<?php echo $id;?>&userID=<?php echo $userID?>'); // Send any necessary parameters
+      location.reload();
+    }
     </script>
 </head>
 
@@ -219,7 +222,7 @@ if (isset($_GET['id'])) {
         <div
           class="col d-xxl-flex justify-content-xxl-end align-items-xxl-center">
           <h3 style="padding-top: 10px; padding-right: 20px">$1.49</h3>
-          <button
+          <button  onclick="addToCart(<?php echo $ingredient['IngredientID'] ?>)"
             class="btn btn-primary btn-lg d-xxl-flex justify-content-xxl-center align-items-xxl-center"
             type="button">
             Add to Cart
