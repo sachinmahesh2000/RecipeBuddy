@@ -2,7 +2,7 @@
 include 'includes/db.php';
 session_start();
 $id = "";
-$userID = $_SESSION['userID'];
+$userID = isset($_SESSION['userID'])? $_SESSION['userID'] : 0;
 $ingredientsArray = array();
 
 
@@ -87,7 +87,6 @@ if (isset($_GET['id'])) {
     //add to cart function
     function addToCart(ingredientId) {
       console.log(ingredientId);
-      debugger;
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'add_to_cart.php', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

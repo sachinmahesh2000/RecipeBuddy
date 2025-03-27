@@ -20,7 +20,32 @@ $sql = "SELECT
         JOIN users ON recipe_users.UserID = users.UserID
         WHERE users.UserID = $user_id";
 
+$trending_sql = "SELECT
+                  recipe.RecipeID,
+                  recipe.RecipeImagePath,
+                  recipe.Title,
+                  recipe.Description,
+                  recipe.isPublic,
+                  users.UserID,
+                  users.Username,
+                  users.UserImagePath,
+                  total_likes
+                  FROM(
+                    SELECT 
+                      RecipeID,
+                      UserID,
+                      COUNT(UserID) AS total_likes
+                    FROM recipe_likes
+                    GROUP BY RecipeID
+                    ORDER BY total_likes DESC
+                    LIMIT 3
+                  ) AS likes
+                  JOIN recipe ON recipe.RecipeID = likes.RecipeID
+                  JOIN users ON users.UserID = likes.UserID
+                  ORDER BY total_likes DESC";
+
 $result = mysqli_query($conn, $sql);
+$trending_result = mysqli_query($conn, $trending_sql);
 ?>
 
 <!DOCTYPE html>
@@ -144,93 +169,43 @@ $result = mysqli_query($conn, $sql);
       </div>
     </div>
     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
-      <div class="col">
-        <div
-          class="card"
-          style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
-          <img
-            class="card-img-top w-100 d-block fit-cover"
-            style="height: 200px"
-            src="assets/img/recpie-3.jpg" />
-          <div class="card-body p-4">
-            <h4 class="card-title">Cheesy Pizza</h4>
-            <p class="card-text">
-              Nullam id dolor id nibh ultricies vehicula ut id elit. Cras
-              justo odio, dapibus ac facilisis in, egestas eget quam. Donec id
-              elit non mi porta gravida at eget metus.
-            </p>
-            <div class="d-flex">
+    <?php while ($row = mysqli_fetch_assoc($trending_result)): ?>
+        <!-- Dynamic Recipe Card -->
+        <?php if ($row['isPublic'] == 1):?>
+        <div class="col">
+          <div
+            class="card"
+            style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
+            <a href="showrecipe.php?id=<?php echo $row['RecipeID'] ?>">
               <img
-                class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                width="50"
-                height="50"
-                src="assets/img/face-7.jpg" />
-              <div>
-                <p class="fw-bold mb-0">John Smith</p>
-                <p class="text-muted mb-0">Erat netus</p>
+                class="card-img-top w-100 d-block fit-cover"
+                style="height: 200px"
+                src="<?php echo $row['RecipeImagePath']; ?>"
+                alt="<?php echo $row['Title']; ?>" />
+
+            </a>
+            <div class="card-body p-4">
+              <h4 class="card-title"><?php echo $row['Title']; ?></h4>
+              <p class="card-text overflow-hidden">
+                <?php echo $row['Description']; ?>
+              </p>
+              <div class="d-flex">
+                <div class="d-flex">
+                  <img
+                    class="rounded-circle flex-shrink-0 me-3 fit-cover"
+                    width="50"
+                    height="50"
+                    src="<?php echo $row['UserImagePath']; ?>" />
+                  <div class="d-flex align-items-center">
+                    <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col">
-        <div
-          class="card"
-          style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
-          <img
-            class="img-fluid card-img-top w-100 d-block fit-cover"
-            style="height: 200px"
-            src="assets/img/recpie-1.jpg" />
-          <div class="card-body p-4">
-            <h4 class="card-title">Healthy Salad Bowl</h4>
-            <p class="card-text">
-              Nullam id dolor id nibh ultricies vehicula ut id elit. Cras
-              justo odio, dapibus ac facilisis in, egestas eget quam. Donec id
-              elit non mi porta gravida at eget metus.
-            </p>
-            <div class="d-flex">
-              <img
-                class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                width="50"
-                height="50"
-                src="assets/img/face-1.jpg" />
-              <div>
-                <p class="fw-bold mb-0">John Smith</p>
-                <p class="text-muted mb-0">Erat netus</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div
-          class="card"
-          style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
-          <img
-            class="img-fluid card-img-top w-100 d-block fit-cover"
-            style="height: 200px"
-            src="assets/img/recpie-2.jpg" />
-          <div class="card-body p-4">
-            <h4 class="card-title">Pancackes</h4>
-            <p class="card-text">
-              Nullam id dolor id nibh ultricies vehicula ut id elit. Cras
-              justo odio, dapibus ac facilisis in, egestas eget quam. Donec id
-              elit non mi porta gravida at eget metus.
-            </p>
-            <div class="d-flex">
-              <img
-                class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                width="50"
-                height="50"
-                src="assets/img/face-2.jpg" />
-              <div>
-                <p class="fw-bold mb-0">John Smith</p>
-                <p class="text-muted mb-0">Erat netus</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <?php endif;?>
+      <?php endwhile; ?>
     </div>
   </div>
   <section

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2025 at 06:30 PM
+-- Generation Time: Mar 27, 2025 at 08:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,9 +38,7 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`CartID`, `UserID`, `IngredientID`) VALUES
-(6, 3, 93),
-(8, 3, 97),
-(9, 3, 96);
+(13, 3, 96);
 
 -- --------------------------------------------------------
 
@@ -141,7 +139,30 @@ INSERT INTO `ingredients` (`IngredientID`, `Ingredient`) VALUES
 (94, 'Water'),
 (95, 'tomato sauce'),
 (96, 'milk'),
-(97, 'yeast');
+(97, 'yeast'),
+(98, 'potatoes'),
+(99, 'oil'),
+(100, 'cumin seeds'),
+(101, 'turmeric powder'),
+(102, 'red chilli powder'),
+(103, 'Tomatoes'),
+(104, 'cucumber'),
+(105, 'Salt'),
+(106, 'Black Pepper'),
+(107, 'Lemon Juice'),
+(108, 'Bread'),
+(109, 'Butter'),
+(110, 'Garlic'),
+(111, 'Salt'),
+(112, 'Rice'),
+(113, 'Yougurt'),
+(114, 'Salt'),
+(115, 'Mustart Seeds'),
+(116, 'Oil'),
+(117, 'Yougurt'),
+(118, 'Cucumber'),
+(119, 'Salt'),
+(120, 'Cumin Powder');
 
 -- --------------------------------------------------------
 
@@ -230,7 +251,21 @@ INSERT INTO `instructions` (`InstructionID`, `Instruction`) VALUES
 (83, 'bake'),
 (84, 'mix everything'),
 (85, 'iuwoieurowiueroiwer'),
-(86, 'boil the milk');
+(86, 'boil the milk'),
+(87, 'Heat oil in a pan and add cumin seeds'),
+(88, 'add cubed potatoes, turmeric, chili powder, and salt in the pan'),
+(89, 'stir well and cook on low heat until potatoes are crispy'),
+(90, 'server hot with roti or rice'),
+(91, 'Mix all ingredients in a bowl'),
+(92, 'Toss well and server fresh'),
+(93, 'Heat butter in a pan and add minced garlic'),
+(94, 'Toast bread slices until golden'),
+(95, 'Sprinkle salt and server warm'),
+(96, 'Mix cooked rice with yougurt and Salt'),
+(97, 'Heat oil, add mustard seeds, and pour over rice'),
+(98, 'Mix well and server chilled or at room temperature'),
+(99, 'Mix all ingredients in a bowl'),
+(100, 'Server chilled as a side dish');
 
 -- --------------------------------------------------------
 
@@ -263,7 +298,12 @@ INSERT INTO `recipe` (`RecipeID`, `Title`, `Description`, `RecipeImagePath`, `Re
 (25, 'Cake', 'Delicious Cake', 'assets/img/recpie-5.jpg', 'recpie-5.jpg', '2025-02-20 15:58:22', 0),
 (26, 'Bread', 'asdf', 'assets/img/kate-remmer-RZn4_FzNUCY-unsplash.jpg', 'kate-remmer-RZn4_FzNUCY-unsplash.jpg', '2025-03-10 12:43:01', 1),
 (27, 'Italian Pizza', 'delicious', 'assets/img/photo-1529312266912-b33cfce2eefd.jpg', 'photo-1529312266912-b33cfce2eefd.jpg', '2025-03-11 12:24:42', 1),
-(28, 'Italian Cheese', 'made from pure milk', 'assets/img/photo-1683314573422-649a3c6ad784.jpg', 'photo-1683314573422-649a3c6ad784.jpg', '2025-03-11 12:27:00', 1);
+(28, 'Italian Cheese', 'made from pure milk', 'assets/img/photo-1683314573422-649a3c6ad784.jpg', 'photo-1683314573422-649a3c6ad784.jpg', '2025-03-11 12:27:00', 1),
+(29, 'Aloo Fry', 'Tasty fried potato with spices', 'assets/img/1. aloo fry.jpeg', '1. aloo fry.jpeg', '2025-03-25 15:19:13', 1),
+(30, 'Tomato Cucumber Salad', 'Healthy and tasty salad', 'assets/img/2. tomato salad.jpeg', '2. tomato salad.jpeg', '2025-03-25 15:22:00', 1),
+(31, 'Garlic Toast', 'Cripsy garlicy bread', 'assets/img/3. garlic toast.jpeg', '3. garlic toast.jpeg', '2025-03-25 15:23:45', 1),
+(32, 'Yogurt Rice', 'Sweet and sour rice with yougurt', 'assets/img/4. Yogurt Rice.jpeg', '4. Yogurt Rice.jpeg', '2025-03-25 15:25:47', 1),
+(33, 'Cucumber Raita', 'Tasty delicious raita', 'assets/img/14. cucmber Raita.jpeg', '14. cucmber Raita.jpeg', '2025-03-25 15:35:04', 1);
 
 -- --------------------------------------------------------
 
@@ -300,7 +340,30 @@ INSERT INTO `recipe_ingredients` (`Recipe_Ingredients_ID`, `RecipeID`, `Ingredie
 (94, 26, 94),
 (95, 27, 95),
 (96, 28, 96),
-(97, 28, 97);
+(97, 28, 97),
+(98, 29, 98),
+(99, 29, 99),
+(100, 29, 100),
+(101, 29, 101),
+(102, 29, 102),
+(103, 30, 103),
+(104, 30, 104),
+(105, 30, 105),
+(106, 30, 106),
+(107, 30, 107),
+(108, 31, 108),
+(109, 31, 109),
+(110, 31, 110),
+(111, 31, 111),
+(112, 32, 112),
+(113, 32, 113),
+(114, 32, 114),
+(115, 32, 115),
+(116, 32, 116),
+(117, 33, 117),
+(118, 33, 118),
+(119, 33, 119),
+(120, 33, 120);
 
 -- --------------------------------------------------------
 
@@ -337,7 +400,30 @@ INSERT INTO `recipe_ingredients_units` (`Recipe_Ingredient_Unit_ID`, `Ingredient
 (23, 94, 3, 26, 200),
 (24, 95, 4, 27, 200),
 (25, 96, 3, 28, 1000),
-(26, 97, 4, 28, 50);
+(26, 97, 4, 28, 50),
+(27, 98, 4, 29, 500),
+(28, 99, 3, 29, 10),
+(29, 100, 4, 29, 5),
+(30, 101, 4, 29, 5),
+(31, 102, 4, 29, 5),
+(32, 103, 4, 30, 600),
+(33, 104, 4, 30, 300),
+(34, 105, 4, 30, 3),
+(35, 106, 4, 30, 3),
+(36, 107, 3, 30, 5),
+(37, 108, 4, 31, 800),
+(38, 109, 4, 31, 100),
+(39, 110, 4, 31, 50),
+(40, 111, 4, 31, 5),
+(41, 112, 4, 32, 400),
+(42, 113, 4, 32, 200),
+(43, 114, 4, 32, 5),
+(44, 115, 4, 32, 5),
+(45, 116, 3, 32, 10),
+(46, 117, 4, 33, 500),
+(47, 118, 4, 33, 200),
+(48, 119, 4, 33, 5),
+(49, 120, 4, 33, 10);
 
 -- --------------------------------------------------------
 
@@ -367,7 +453,21 @@ INSERT INTO `recipe_instructions` (`Recipe_Instructions_ID`, `RecipeID`, `Instru
 (74, 25, 83),
 (75, 26, 84),
 (76, 27, 85),
-(77, 28, 86);
+(77, 28, 86),
+(78, 29, 87),
+(79, 29, 88),
+(80, 29, 89),
+(81, 29, 90),
+(82, 30, 91),
+(83, 30, 92),
+(84, 31, 93),
+(85, 31, 94),
+(86, 31, 95),
+(87, 32, 96),
+(88, 32, 97),
+(89, 32, 98),
+(90, 33, 99),
+(91, 33, 100);
 
 -- --------------------------------------------------------
 
@@ -380,6 +480,14 @@ CREATE TABLE `recipe_likes` (
   `RecipeID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `recipe_likes`
+--
+
+INSERT INTO `recipe_likes` (`Recipe_Likes_ID`, `RecipeID`, `UserID`) VALUES
+(94, 29, 3),
+(95, 31, 3);
 
 -- --------------------------------------------------------
 
@@ -403,7 +511,12 @@ INSERT INTO `recipe_users` (`Recipe_Users_ID`, `RecipeID`, `UserID`) VALUES
 (21, 25, 3),
 (22, 26, 3),
 (23, 27, 4),
-(24, 28, 4);
+(24, 28, 4),
+(25, 29, 3),
+(26, 30, 3),
+(27, 31, 3),
+(28, 32, 3),
+(29, 33, 4);
 
 -- --------------------------------------------------------
 
@@ -540,55 +653,55 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `IngredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `instructions`
 --
 ALTER TABLE `instructions`
-  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `InstructionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `recipe`
 --
 ALTER TABLE `recipe`
-  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `RecipeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `recipe_ingredients`
 --
 ALTER TABLE `recipe_ingredients`
-  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `Recipe_Ingredients_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `recipe_ingredients_units`
 --
 ALTER TABLE `recipe_ingredients_units`
-  MODIFY `Recipe_Ingredient_Unit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `Recipe_Ingredient_Unit_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `recipe_instructions`
 --
 ALTER TABLE `recipe_instructions`
-  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `Recipe_Instructions_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `recipe_likes`
 --
 ALTER TABLE `recipe_likes`
-  MODIFY `Recipe_Likes_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Recipe_Likes_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `recipe_users`
 --
 ALTER TABLE `recipe_users`
-  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `Recipe_Users_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `units`

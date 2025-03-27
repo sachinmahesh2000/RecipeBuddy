@@ -40,7 +40,6 @@ if ($result && $result != null) {
       //remove from cart function
     function removeIngredient(ingredientId) {
       console.log(ingredientId);
-      debugger;
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'removeIngredient.php', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
