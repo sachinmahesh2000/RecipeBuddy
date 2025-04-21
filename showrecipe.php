@@ -34,6 +34,14 @@ if (isset($_GET['id'])) {
 
   $already_liked_sql = "SELECT COUNT(RecipeID) AS 'Likes' FROM recipe_likes WHERE RecipeID = $id and UserID = $userID ";
 
+  $reviews_sql = "SELECT Recipe_Comment_ID, recipe.RecipeID, comment.CommentID, users.UserID,users.UserImagePath, comment.CommentText 
+                  FROM 
+                  `recipe_comment` JOIN recipe
+                  ON recipe_comment.RecipeID = recipe.RecipeID
+                  JOIN comment On recipe_comment.CommentID = comment.CommentID
+                  JOIN users On recipe_comment.UserID = users.UserID
+                  WHERE recipe.RecipeID = $id";
+
   $ingredient_result = mysqli_query($conn, $ingredient_sql);
   $ingredient_row = mysqli_fetch_assoc($ingredient_result);
   $instructions_result = mysqli_query($conn, $instructions_sql);
@@ -44,6 +52,8 @@ if (isset($_GET['id'])) {
   $likes_row = mysqli_fetch_assoc($likes_result);
   $already_liked_result = mysqli_query($conn, $already_liked_sql);
   $already_liked_row = mysqli_fetch_assoc($already_liked_result);
+  $reviews_result = mysqli_query($conn,$reviews_sql);
+
 
   $like_class = $already_liked_row['Likes'] == 1 ? "text-danger" : "";
 
@@ -82,6 +92,28 @@ if (isset($_GET['id'])) {
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: red;
     }
+    #comment-section {
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-bottom: 10px;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #commentsList {
+      margin-top: 20px;
+    }
+    .comment {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
   </style>
   <script>
     //add to cart function
@@ -100,6 +132,22 @@ if (isset($_GET['id'])) {
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.send('recipeID=<?php echo $id;?>&userID=<?php echo $userID?>'); // Send any necessary parameters
       location.reload();
+    }
+
+    //add review function
+    function addReview(userID,recipeID) {
+      var reviewTextElement = document.getElementById("reviewTextarea");
+      var reviewText = reviewTextElement.value;
+      if(reviewText == ""){
+        alert("Please provide a valid review");
+      }
+      else{
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'addReview.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send(`recipeID=${recipeID}&userID=<?php echo $userID?>&CommentText=${reviewText}`); // Send any necessary parameters
+        location.reload();
+      }
     }
     </script>
 </head>
@@ -234,7 +282,7 @@ if (isset($_GET['id'])) {
 
   <div
     class="container d-sm-flex justify-content-sm-end align-items-sm-center"
-    style="padding-bottom: 12px">
+    style="padding-bottom: 12px; margin-bottom:12px; border-bottom: 1px solid var(--bs-primary)">
     <?php
     if (isset($_SESSION['Username']) && $_SESSION['loggedin'] == true) {
       echo '<a
@@ -244,6 +292,58 @@ if (isset($_GET['id'])) {
     }
     ?>
 
+  </div>
+
+  <div
+    class="container"
+    style="padding-bottom: 12px; ">
+    <div class="container mb-2">
+      <h2>Reviews</h2>
+    </div>
+    <div class="container ps-2 ">
+      <?php while ($reviews_row = mysqli_fetch_assoc($reviews_result)): ?>
+        <div class="d-flex pb-2">
+        <img
+          class="rounded-circle flex-shrink-0 me-3 fit-cover"
+          width="50"
+          height="50"
+          src="<?php echo $reviews_row['UserImagePath']; ?>" />
+        <div class="d-flex align-items-center">
+          <p class="fw-bold mb-0"><?php echo $reviews_row['CommentText']; ?></p>
+        </div>
+      </div>
+      <?php endwhile; ?>
+      
+    </div>
+  </div>
+
+  <div class="container mt-2 mb-5">
+    <div class="container d-flex mt-3">
+      <div class="d-flex">
+        <img
+          class="rounded-circle flex-shrink-0 me-3 fit-cover"
+          width="50"
+          height="50"
+          src="./assets/img/face-1.jpg" />
+        <div class="d-flex align-items-start">
+          <p class="fw-bold mb-0">Admin</p>
+        </div>
+      </div>
+      <div class="container">
+        <div class="form-floating">
+          <textarea class="form-control" placeholder="Leave a comment here" id="reviewTextarea" style="height: 100px"></textarea>
+          <label for="floatingTextarea2">Add a review</label>
+          
+        </div>
+      </div>
+    </div>
+    <div class="container">
+    <button onclick="addReview(<?php echo $userID ?>, <?php echo $id ?>)"
+      class=" mt-2 btn btn-primary btn-lg d-xxl-flex justify-content-xxl-center align-items-xxl-center"
+      type="button">
+      Add Review
+    </button>
+    </div>
   </div>
   <footer class="text-center bg-dark">
     <div class="container text-white py-4 py-lg-5">
