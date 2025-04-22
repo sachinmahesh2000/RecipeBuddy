@@ -59,10 +59,22 @@ while ($units_row = mysqli_fetch_assoc($units_result)) {
                 </label>
             </div>
             <div class="form-check">
-            <input class="form-check-input" type="radio" name="visibilityRadio" id="privateRadioID" value="0">
+                <input class="form-check-input" type="radio" name="visibilityRadio" id="privateRadioID" value="0">
                 <label class="form-check-label" for="publicRadioID">
                     Private
                 </label>
+            </div>
+            <!-- Add allergens dropdown -->
+            <div class="form-group mt-3">
+                <label class="mb-2 fs-4" for="allergens">Dietary Preferences (Select multiple)</label>
+                <select class="form-select" id="allergens" name="allergens[]" multiple size="5">
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="gluten-free">Gluten Free</option>
+                    <option value="dairy-free">Dairy Free</option>
+                    <option value="nut-free">Nut Free</option>
+                </select>
+                <small class="form-text text-muted">Hold Ctrl (Windows) or Command (Mac) to select multiple options</small>
             </div>
             <div class="form-group">
                 <label class="mb-2 fs-4" for="ingredients">Ingredients</label>

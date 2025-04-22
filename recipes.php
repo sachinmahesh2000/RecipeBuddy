@@ -2,24 +2,36 @@
 include 'includes/db.php';
 session_start();
 
-$search = '';
-$recipes = [];
+// Get the sort parameter from URL
+$sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+
 $sql = "SELECT
         recipe.RecipeID,
         recipe.RecipeImagePath,
         recipe.Title,
         recipe.Description,
         recipe.isPublic,
+        recipe.allergens,
         users.UserID,
         users.Username,
-        users.UserImagePath
+        users.UserImagePath,
+        (SELECT SUM(i.price) 
+         FROM recipe_ingredients ri 
+         JOIN ingredients i ON ri.IngredientID = i.IngredientID 
+         WHERE ri.RecipeID = recipe.RecipeID) as total_price
         FROM
           `recipe_users`
         JOIN recipe ON recipe_users.RecipeID = recipe.RecipeID
         JOIN users ON recipe_users.UserID = users.UserID";
 
-$result = mysqli_query($conn, $sql);
+// Add ORDER BY clause based on sort parameter
+if ($sort == 'price_asc') {
+    $sql .= " ORDER BY total_price ASC";
+} elseif ($sort == 'price_desc') {
+    $sql .= " ORDER BY total_price DESC";
+}
 
+$result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -34,6 +46,8 @@ $result = mysqli_query($conn, $sql);
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/styles.min.css" />
+  <link rel="stylesheet" href="assets/css/custom.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body style="font-family: 'Abhaya Libre', serif">
@@ -92,9 +106,56 @@ $result = mysqli_query($conn, $sql);
         <form method="POST" action="searchrecipe.php" id="searchForm">
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search for..." name="search" required />
-            <button class="btn btn-primary" type="submit id=" searchFormBtn">Search</button>
+            <button class="btn btn-primary" type="submit">Search</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Add sorting options -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center filter-section">
+          <div class="d-flex gap-2 flex-wrap align-items-center">
+            <div class="dropdown">
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-sort"></i> Sort by Price
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                <li><a class="dropdown-item <?php echo $sort == 'price_asc' ? 'active' : ''; ?>" href="?sort=price_asc">
+                  <i class="bi bi-arrow-up"></i> Low to High
+                </a></li>
+                <li><a class="dropdown-item <?php echo $sort == 'price_desc' ? 'active' : ''; ?>" href="?sort=price_desc">
+                  <i class="bi bi-arrow-down"></i> High to Low
+                </a></li>
+                <li><a class="dropdown-item <?php echo $sort == '' ? 'active' : ''; ?>" href="?">
+                  <i class="bi bi-x"></i> Clear Sorting
+                </a></li>
+              </ul>
+            </div>
+
+            <!-- Allergen Filter -->
+            <div class="allergen-filter">
+              <div class="d-flex flex-wrap gap-2">
+                <button class="allergen-btn" data-allergen="vegetarian">Vegetarian</button>
+                <button class="allergen-btn" data-allergen="vegan">Vegan</button>
+                <button class="allergen-btn" data-allergen="gluten-free">Gluten Free</button>
+                <button class="allergen-btn" data-allergen="dairy-free">Dairy Free</button>
+                <button class="allergen-btn" data-allergen="nut-free">Nut Free</button>
+              </div>
+            </div>
+
+            <!-- Reset All Filters Button -->
+            <button onclick="window.location.href='recipes.php'" class="btn btn-danger ms-2">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset All Filters
+            </button>
+          </div>
+
+          <!-- Active Filters Display -->
+          <div id="activeFilters" class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
+            <!-- Active filters will be displayed here via JavaScript -->
+          </div>
+        </div>
       </div>
     </div>
 
@@ -102,43 +163,77 @@ $result = mysqli_query($conn, $sql);
     <div
       class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3"
       style="margin-bottom: 25px" id="recipeBlock">
-      <?php while ($row = mysqli_fetch_assoc($result)): ?>
-        <!-- Dynamic Recipe Card -->
-        <?php if ($row['isPublic'] == 1):?>
-        <div class="col">
-          <div
-            class="card"
-            style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
-            <a href="showrecipe.php?id=<?php echo $row['RecipeID'] ?>">
-              <img
-                class="card-img-top w-100 d-block fit-cover"
-                style="height: 200px"
-                src="<?php echo $row['RecipeImagePath']; ?>"
-                alt="<?php echo $row['Title']; ?>" />
-
-            </a>
-            <div class="card-body p-4">
-              <h4 class="card-title"><?php echo $row['Title']; ?></h4>
-              <p class="card-text overflow-hidden">
-                <?php echo $row['Description']; ?>
-              </p>
-              <div class="d-flex">
-                <div class="d-flex">
-                  <img
-                    class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                    width="50"
-                    height="50"
-                    src="<?php echo $row['UserImagePath']; ?>" />
+      <?php if ($result && mysqli_num_rows($result) > 0): ?>
+        <?php while ($row = mysqli_fetch_assoc($result)): ?>
+          <?php if ($row['isPublic'] == 1):?>
+          <div class="col">
+            <div class="card" 
+                 data-allergens="<?php echo htmlspecialchars($row['allergens'] ?? ''); ?>" 
+                 style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
+              <!-- Add this debugging info temporarily -->
+              <div style="position: absolute; top: 0; right: 0; background: rgba(0,0,0,0.5); color: white; padding: 5px;">
+                  Allergens: <?php echo htmlspecialchars($row['allergens'] ?? 'none'); ?>
+              </div>
+              <a href="showrecipe.php?id=<?php echo $row['RecipeID']; ?>">
+                <img class="card-img-top w-100 d-block fit-cover" style="height: 200px" src="<?php echo $row['RecipeImagePath']; ?>" alt="<?php echo $row['Title']; ?>">
+              </a>
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h4 class="card-title mb-0"><?php echo $row['Title']; ?></h4>
+                  <span class="badge bg-primary price-badge">
+                      $<?php echo number_format($row['total_price'] ?? 0, 2); ?>
+                  </span>
+                </div>
+                <div class="allergen-tags mb-2">
+                  <?php
+                  if (!empty($row['allergens'])) {
+                      $allergens = explode(',', $row['allergens']);
+                      foreach ($allergens as $allergen) {
+                          echo '<span class="badge bg-secondary me-1">' . htmlspecialchars(trim($allergen)) . '</span>';
+                      }
+                  }
+                  ?>
+                </div>
+                <div class="ingredient-prices mb-3 small">
+                  <?php
+                  $ingredients_sql = "SELECT i.Ingredient, i.price 
+                                    FROM recipe_ingredients ri 
+                                    JOIN ingredients i ON ri.IngredientID = i.IngredientID 
+                                    WHERE ri.RecipeID = " . $row['RecipeID'];
+                  $ingredients_result = mysqli_query($conn, $ingredients_sql);
+                  echo '<div class="ingredients-list">';
+                  while ($ingredient = mysqli_fetch_assoc($ingredients_result)) {
+                      echo '<div class="ingredient-item d-flex justify-content-between">';
+                      echo '<span>' . htmlspecialchars($ingredient['Ingredient']) . '</span>';
+                      echo '<span class="text-muted">$' . number_format($ingredient['price'], 2) . '</span>';
+                      echo '</div>';
+                  }
+                  echo '</div>';
+                  ?>
+                </div>
+                <p class="card-text overflow-hidden">
+                  <?php echo $row['Description']; ?>
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
                   <div class="d-flex align-items-center">
-                    <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
+                    <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="<?php echo $row['UserImagePath']; ?>">
+                    <div class="d-flex align-items-center">
+                      <p class="fw-bold mb-0"><?php echo $row['Username']; ?></p>
+                    </div>
                   </div>
+                  <a href="showrecipe.php?id=<?php echo $row['RecipeID']; ?>" 
+                     class="btn btn-primary btn-sm">View Recipe</a>
                 </div>
               </div>
             </div>
           </div>
+          <?php endif;?>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <div class="col-12 text-center">
+          <h3>No recipes found</h3>
         </div>
-        <?php endif;?>
-      <?php endwhile; ?>
+      <?php endif; ?>
     </div>
     <!-- <div
       class="row text-center d-md-flex d-xxl-flex justify-content-md-center align-items-md-center justify-content-xxl-center align-items-xxl-center">
@@ -222,13 +317,48 @@ $result = mysqli_query($conn, $sql);
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/script.min.js"></script>
-  <!-- <script>
-    document.getElementById('searchFormBtn').addEventListener('click', function(event) {
-      event.preventDefault();
-      document.getElementById('recipeBlock').innerHTML = "";
-      document.getElementById('myForm').submit();
-    });
-  </script> -->
+  <script src="assets/js/custom.js"></script>
+  <style>
+    .price-badge {
+        font-size: 1.1rem;
+        padding: 8px 12px;
+        background-color: var(--bs-primary) !important;
+    }
+
+    .ingredients-list {
+        max-height: 100px;
+        overflow-y: auto;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .ingredient-item {
+        padding: 2px 0;
+        border-bottom: 1px dashed #dee2e6;
+    }
+
+    .ingredient-item:last-child {
+        border-bottom: none;
+    }
+
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .badge {
+        transition: all 0.2s ease;
+    }
+
+    .badge:hover {
+        transform: scale(1.05);
+    }
+  </style>
 </body>
 
 </html>

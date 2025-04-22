@@ -181,6 +181,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         Private
                     </label>
                 </div>
+                <!-- Add allergens dropdown -->
+                <div class="form-group mt-3">
+                    <label class="mb-2 fs-4" for="allergens">Dietary Preferences (Select multiple)</label>
+                    <select class="form-select" id="allergens" name="allergens[]" multiple size="5">
+                        <option value="vegetarian" <?php echo strpos($recipe['allergens'], 'vegetarian') !== false ? 'selected' : ''; ?>>Vegetarian</option>
+                        <option value="vegan" <?php echo strpos($recipe['allergens'], 'vegan') !== false ? 'selected' : ''; ?>>Vegan</option>
+                        <option value="gluten-free" <?php echo strpos($recipe['allergens'], 'gluten-free') !== false ? 'selected' : ''; ?>>Gluten Free</option>
+                        <option value="dairy-free" <?php echo strpos($recipe['allergens'], 'dairy-free') !== false ? 'selected' : ''; ?>>Dairy Free</option>
+                        <option value="nut-free" <?php echo strpos($recipe['allergens'], 'nut-free') !== false ? 'selected' : ''; ?>>Nut Free</option>
+                    </select>
+                    <small class="form-text text-muted">Hold Ctrl (Windows) or Command (Mac) to select multiple options</small>
+                </div>
                 <div class="mb-3">
                     <label class="mb-2" for="ingredients">Ingredients</label>
                     <div id="ingredients">

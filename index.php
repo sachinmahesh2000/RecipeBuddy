@@ -61,6 +61,7 @@ $trending_result = mysqli_query($conn, $trending_sql);
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/css/styles.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body style="font-family: 'Abhaya Libre', serif">
@@ -134,8 +135,7 @@ $trending_result = mysqli_query($conn, $trending_sql);
               <p
                 class="lead fs-5 text-light my-3"
                 style="color: rgb(250, 250, 250)">
-                Tincidunt laoreet leo, adipiscing taciti tempor. Primis
-                senectus sapien, risus donec ad fusce augue interdum.
+                Discover a world of delicious recipes from home cooks and professional chefs. Our easy-to-follow recipes come with step-by-step instructions, making cooking accessible for everyone, from beginners to experienced cooks.
               </p>
               <a
                 class="btn btn-primary btn-lg fs-4 link-primary me-2"
@@ -163,8 +163,7 @@ $trending_result = mysqli_query($conn, $trending_sql);
         <p
           class="fs-5 w-lg-50"
           style="color: var(--bs-primary-text-emphasis)">
-          Curae hendrerit donec commodo hendrerit egestas tempus, turpis
-          facilisis nostra nunc. Vestibulum dui eget ultrices.
+          Create your personal cookbook by saving your favorite recipes, and easily plan your meals with our smart shopping list feature. Filter recipes by dietary preferences and find the perfect dish for any occasion.
         </p>
       </div>
     </div>
@@ -385,67 +384,73 @@ $trending_result = mysqli_query($conn, $trending_sql);
     </div>
     <div class="row gy-4 row-cols-1 row-cols-sm-2 row-cols-lg-3">
       <div class="col">
-        <div>
-          <p class="bg-body-tertiary border rounded border-0 p-4">
-            Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit
-            class dapibus, aliquet morbi.
-          </p>
-          <div class="d-flex">
-            <img
-              class="rounded-circle flex-shrink-0 me-3 fit-cover"
-              width="50"
-              height="50"
-              src="assets/img/face-4.jpg" />
-            <div>
-              <p class="fw-bold text-primary mb-0">John Smith</p>
-              <p class="text-muted mb-0">Erat netus</p>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <!-- Star Rating -->
+            <div class="mb-3">
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+            </div>
+            <p class="card-text">"I love how easy it is to find new recipes on RecipeBuddy! The allergen filters helped me find perfect dishes for my gluten-free diet. The step-by-step instructions make cooking feel less intimidating."</p>
+            <div class="d-flex align-items-center">
+              <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="assets/img/face-1.jpg">
+              <div>
+                <p class="fw-bold mb-0">Sarah M.</p>
+                <p class="text-muted mb-0">Home Cook</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col">
-        <div>
-          <p class="bg-body-tertiary border rounded border-0 p-4">
-            Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit
-            class dapibus, aliquet morbi.
-          </p>
-          <div class="d-flex">
-            <img
-              class="rounded-circle flex-shrink-0 me-3 fit-cover"
-              width="50"
-              height="50"
-              src="assets/img/face-5.jpg" />
-            <div>
-              <p class="fw-bold text-primary mb-0">John Smith</p>
-              <p class="text-muted mb-0">Erat netus</p>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <!-- Star Rating -->
+            <div class="mb-3">
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star-half-alt text-warning"></i>
+            </div>
+            <p class="card-text">"As a busy parent, RecipeBuddy has been a lifesaver. I can quickly find family-friendly recipes and add ingredients to my shopping cart. The meal planning feature has made weeknight dinners so much easier!"</p>
+            <div class="d-flex align-items-center">
+              <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="assets/img/face-2.jpg">
+              <div>
+                <p class="fw-bold mb-0">Michael R.</p>
+                <p class="text-muted mb-0">Parent & Cooking Enthusiast</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col">
-        <div>
-          <p class="bg-body-tertiary border rounded border-0 p-4">
-            Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit
-            class dapibus, aliquet morbi.
-          </p>
-          <div class="d-flex">
-            <img
-              class="rounded-circle flex-shrink-0 me-3 fit-cover"
-              width="50"
-              height="50"
-              src="assets/img/face-6.jpg" />
-            <div>
-              <p class="fw-bold text-primary mb-0">John Smith</p>
-              <p class="text-muted mb-0">Erat netus</p>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <!-- Star Rating -->
+            <div class="mb-3">
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+              <i class="fas fa-star text-warning"></i>
+            </div>
+            <p class="card-text">"The community aspect of RecipeBuddy is fantastic. I've discovered so many authentic recipes from different cultures, and the tips from other home cooks have really improved my cooking skills."</p>
+            <div class="d-flex align-items-center">
+              <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="assets/img/face-3.jpg">
+              <div>
+                <p class="fw-bold mb-0">Emily L.</p>
+                <p class="text-muted mb-0">Food Blogger</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
-
 
   <!-- User Recent Recipes Start -->
   <?php if (isset($_SESSION['Username']) && $_SESSION['loggedin'] == true): ?>
@@ -675,6 +680,32 @@ $trending_result = mysqli_query($conn, $trending_sql);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/script.min.js"></script>
   <script src="./assets/js/server.js"></script>
+  <style>
+    .fa-star, .fa-star-half-alt {
+      font-size: 1.2rem;
+    }
+
+    .card {
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .text-warning {
+      color: #ffc107 !important;
+    }
+
+    .fit-cover {
+      object-fit: cover;
+    }
+
+    .rounded-circle {
+      border: 2px solid #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+  </style>
 </body>
 
 </html>

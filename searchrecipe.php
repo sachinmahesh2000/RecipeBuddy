@@ -3,54 +3,65 @@ include 'includes/db.php';
 session_start();
 
 $recipes = [];
+$sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $search = $_POST['search'];
-  $keywords = explode(" ", $search);
-  $conditions = [];
+    $search = $_POST['search'];
+    $keywords = explode(" ", $search);
+    $conditions = [];
 
-  foreach ($keywords as $keyword) {
-    $conditions[] = " recipe.Title LIKE '%".$keyword."%'";
-  }
+    foreach ($keywords as $keyword) {
+        $conditions[] = " recipe.Title LIKE '%".$keyword."%'";
+    }
 
-  $search_sql = "SELECT
+    $search_sql = "SELECT
         recipe.RecipeID,
         recipe.RecipeImagePath,
         recipe.Title,
         recipe.Description,
+        recipe.isPublic,
+        recipe.allergens,
         users.UserID,
         users.Username,
-        users.UserImagePath
+        users.UserImagePath,
+        (SELECT SUM(i.price) 
+         FROM recipe_ingredients ri 
+         JOIN ingredients i ON ri.IngredientID = i.IngredientID 
+         WHERE ri.RecipeID = recipe.RecipeID) as total_price
         FROM
           `recipe_users`
         JOIN recipe ON recipe_users.RecipeID = recipe.RecipeID
         JOIN users ON recipe_users.UserID = users.UserID
         WHERE ";
-        // WHERE recipe.Title LIKE '%$search%'
     
-  $search_sql .= implode(" OR", $conditions);
-  $search_result = mysqli_query($conn, $search_sql);
-  if ($search_result) {
-    while ($search_row = mysqli_fetch_assoc($search_result)) {
-      $recipes[] = $search_row;
+    $search_sql .= implode(" OR", $conditions);
+
+    // Add sorting
+    if ($sort == 'price_asc') {
+        $search_sql .= " ORDER BY total_price ASC";
+    } elseif ($sort == 'price_desc') {
+        $search_sql .= " ORDER BY total_price DESC";
     }
-  }
+
+    $search_result = mysqli_query($conn, $search_sql);
+    if ($search_result) {
+        while ($search_row = mysqli_fetch_assoc($search_result)) {
+            $recipes[] = $search_row;
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-  <title>RecipeBuddy</title>
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="assets/css/styles.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>RecipeBuddy - Search Results</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/styles.min.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body style="font-family: 'Abhaya Libre', serif">
@@ -104,46 +115,107 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="row mb-5">
       <div class="col-md-8 col-xl-6 text-center mx-auto">
         <h1 class="display-4" style="color: var(--bs-primary)">
-          Search Worldwide Recipes
+          Search Results
         </h1>
         <form method="POST" action="searchrecipe.php" id="searchForm">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search for..." name="search" required />
+            <input type="text" class="form-control" placeholder="Search for..." name="search" 
+                   value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" required />
             <button class="btn btn-primary" type="submit">Search</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- Show default recipes -->
-    <div
-      class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3"
-      style="margin-bottom: 25px" id="recipeBlock">
+    <!-- Filters Section -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center filter-section">
+          <div class="d-flex gap-2 flex-wrap align-items-center">
+            <div class="dropdown">
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-sort"></i> Sort by Price
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                <li><a class="dropdown-item <?php echo $sort == 'price_asc' ? 'active' : ''; ?>" 
+                       href="?<?php echo http_build_query(array_merge($_GET, ['sort' => 'price_asc'])); ?>">
+                  <i class="bi bi-arrow-up"></i> Low to High
+                </a></li>
+                <li><a class="dropdown-item <?php echo $sort == 'price_desc' ? 'active' : ''; ?>" 
+                       href="?<?php echo http_build_query(array_merge($_GET, ['sort' => 'price_desc'])); ?>">
+                  <i class="bi bi-arrow-down"></i> High to Low
+                </a></li>
+                <li><a class="dropdown-item <?php echo $sort == '' ? 'active' : ''; ?>" 
+                       href="?<?php echo http_build_query(array_diff_key($_GET, ['sort' => ''])); ?>">
+                  <i class="bi bi-x"></i> Clear Sorting
+                </a></li>
+              </ul>
+            </div>
+            
+            <!-- Allergen Filter -->
+            <div class="allergen-filter">
+              <div class="d-flex flex-wrap gap-2">
+                <button class="allergen-btn" data-allergen="vegetarian">Vegetarian</button>
+                <button class="allergen-btn" data-allergen="vegan">Vegan</button>
+                <button class="allergen-btn" data-allergen="gluten-free">Gluten Free</button>
+                <button class="allergen-btn" data-allergen="dairy-free">Dairy Free</button>
+                <button class="allergen-btn" data-allergen="nut-free">Nut Free</button>
+              </div>
+            </div>
+
+            <!-- Reset All Filters Button -->
+            <button onclick="window.location.href='recipes.php'" class="btn btn-danger ms-2">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset All Filters
+            </button>
+          </div>
+
+          <!-- Active Filters Display -->
+          <div id="activeFilters" class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
+            <!-- Active filters will be displayed here via JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recipe Cards -->
+    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3" style="margin-bottom: 25px" id="recipeBlock">
       <?php if (!empty($recipes)): ?>
         <?php foreach ($recipes as $recipe): ?>
-          <div class="col">
-            <div
-              class="card"
-              style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
-              <a href="showrecipe.php?id=<?php echo $recipe['RecipeID'] ?>">
-                <img
-                  class="card-img-top w-100 d-block fit-cover"
-                  style="height: 200px"
-                  src="<?php echo $recipe['RecipeImagePath']; ?>"
-                  alt="<?php echo $recipe['Title']; ?>" />
-              </a>
-              <div class="card-body p-4">
-                <h4 class="card-title"><?php echo $recipe['Title']; ?></h4>
-                <p class="card-text overflow-hidden">
-                  <?php echo $recipe['Description']; ?>
-                </p>
-                <div class="d-flex">
+          <?php if ($recipe['isPublic'] == 1): ?>
+            <div class="col">
+              <div class="card" 
+                   data-allergens="<?php echo htmlspecialchars($recipe['allergens'] ?? ''); ?>"
+                   style="box-shadow: 0px 0px 6px 1px rgba(225, 225, 225, 0.9)">
+                <a href="showrecipe.php?id=<?php echo $recipe['RecipeID']; ?>">
+                  <img class="card-img-top w-100 d-block fit-cover" 
+                       style="height: 200px" 
+                       src="<?php echo $recipe['RecipeImagePath']; ?>" 
+                       alt="<?php echo $recipe['Title']; ?>">
+                </a>
+                <div class="card-body p-4">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h4 class="card-title mb-0"><?php echo $recipe['Title']; ?></h4>
+                    <span class="badge bg-primary price-badge">
+                      $<?php echo number_format($recipe['total_price'] ?? 0, 2); ?>
+                    </span>
+                  </div>
+                  <div class="allergen-tags mb-2">
+                    <?php
+                    if (!empty($recipe['allergens'])) {
+                      $allergens = explode(',', $recipe['allergens']);
+                      foreach ($allergens as $allergen) {
+                        echo '<span class="badge bg-secondary me-1">' . htmlspecialchars(trim($allergen)) . '</span>';
+                      }
+                    }
+                    ?>
+                  </div>
+                  <p class="card-text overflow-hidden">
+                    <?php echo $recipe['Description']; ?>
+                  </p>
                   <div class="d-flex">
-                    <img
-                      class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                      width="50"
-                      height="50"
-                      src="<?php echo $recipe['UserImagePath']; ?>" />
+                    <img class="rounded-circle flex-shrink-0 me-3 fit-cover"
+                         width="50" height="50"
+                         src="<?php echo $recipe['UserImagePath']; ?>" />
                     <div class="d-flex align-items-center">
                       <p class="fw-bold mb-0"><?php echo $recipe['Username']; ?></p>
                     </div>
@@ -151,35 +223,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
               </div>
             </div>
-          </div>
+          <?php endif; ?>
         <?php endforeach; ?>
+      <?php else: ?>
+        <div class="col-12 text-center">
+          <h3>No recipes found matching your search criteria</h3>
+          <a href="recipes.php" class="btn btn-primary mt-3">View All Recipes</a>
+        </div>
       <?php endif; ?>
-
-
     </div>
-    <!-- <div
-      class="row text-center d-md-flex d-xxl-flex justify-content-md-center align-items-md-center justify-content-xxl-center align-items-xxl-center">
-      <div
-        class="col d-md-flex d-xxl-flex justify-content-md-center align-items-md-center justify-content-xxl-center align-items-xxl-center"
-        style="margin-top: 15px">
-        <nav
-          class="d-flex d-sm-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item">
-              <a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div> -->
   </div>
   <footer class="text-center bg-dark">
     <div class="container text-white py-4 py-lg-5">
@@ -239,13 +291,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/script.min.js"></script>
-  <!-- <script>
-    document.getElementById('searchFormBtn').addEventListener('click', function(event) {
-      event.preventDefault();
-      document.getElementById('recipeBlock').innerHTML = "";
-      document.getElementById('myForm').submit();
-    });
-  </script> -->
 </body>
-
 </html>

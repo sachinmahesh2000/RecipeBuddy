@@ -2,19 +2,52 @@
 session_start();
 include 'includes/db.php';
 
+// Initialize variables
+$total = 0.00;
+$ingredientArray = array();
+
+// Initialize discount
+if (!isset($_SESSION['discount'])) {
+    $_SESSION['discount'] = 0;
+}
+
+// Process coupon code
+if (isset($_POST['apply_coupon'])) {
+    $coupon_code = strtoupper(trim($_POST['coupon_code']));
+    
+    if ($coupon_code === 'STUDENT') {
+        $_SESSION['discount'] = 0.20; // 20% discount
+        $_SESSION['coupon_code'] = $coupon_code;
+        $_SESSION['coupon_message'] = 'Student discount (20%) applied successfully!';
+        $_SESSION['coupon_status'] = 'success';
+    } else {
+        $_SESSION['discount'] = 0;
+        $_SESSION['coupon_code'] = '';
+        $_SESSION['coupon_message'] = 'Invalid coupon code.';
+        $_SESSION['coupon_status'] = 'danger';
+    }
+    
+    // Redirect to prevent form resubmission
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+// Get user's cart items
 $user_id = $_SESSION['userID'];
-$sql = "SELECT users.UserID, ingredients.Ingredient, cart.cartID, ingredients.IngredientID FROM cart 
+$sql = "SELECT users.UserID, ingredients.Ingredient, cart.cartID, ingredients.IngredientID, ingredients.price 
+        FROM cart 
         JOIN users ON cart.UserID = users.UserID
         JOIN ingredients ON cart.IngredientID = ingredients.IngredientID
         WHERE users.UserID = $user_id";
 
 $result = mysqli_query($conn, $sql);
-if ($result && $result != null) {
-  while ($row = mysqli_fetch_assoc($result)) {
-    if($row != null){
-      $ingredientArray[] = $row;
+
+// Calculate total from cart items
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $ingredientArray[] = $row;
+        $total += floatval($row['price']); // Convert price to float and add to total
     }
-  }
 }
 
 ?>
@@ -101,6 +134,21 @@ if ($result && $result != null) {
           <div class="container">
             <div class="row">
               <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+                <!-- Add this debugging section temporarily at the top of your cart display -->
+                <div class="container py-4">
+                    <?php
+                    // Debug query to show all prices
+                    $debug_sql = "SELECT Ingredient, price FROM ingredients WHERE IngredientID IN (SELECT IngredientID FROM cart WHERE UserID = " . $_SESSION['userID'] . ")";
+                    $debug_result = mysqli_query($conn, $debug_sql);
+                    
+                    echo "<div class='alert alert-info'>";
+                    echo "<h4>Your Cart Items:</h4>";
+                    while ($row = mysqli_fetch_assoc($debug_result)) {
+                        echo htmlspecialchars($row['Ingredient']) . ": $" . number_format($row['price'], 2) . "<br>";
+                    }
+                    echo "</div>";
+                    ?>
+                </div>
                 <!-- Shopping cart table -->
                 <div class="table-responsive">
                   <table class="table">
@@ -137,7 +185,7 @@ if ($result && $result != null) {
                             </div>
                           </th>
                           <td class="border-0 align-middle">
-                            <strong>$2.99</strong>
+                            <strong>$<?php echo number_format($i['price'], 2); ?></strong>
                           </td>
                           <td class="border-0 align-middle">
                             <strong>1</strong>
@@ -168,23 +216,32 @@ if ($result && $result != null) {
                   <p class="font-italic mb-4">
                     If you have a coupon code, please enter it in the box below
                   </p>
-                  <div class="input-group mb-4 border rounded-pill p-2">
-                    <input
-                      type="text"
-                      placeholder="Apply coupon"
-                      aria-describedby="button-addon3"
-                      class="form-control border-0"
-                    />
-                    <div class="input-group-append border-0">
-                      <button
-                        id="button-addon3"
-                        type="button"
-                        class="btn btn-dark px-4 rounded-pill"
-                      >
-                        <i class="fa fa-gift mr-2"></i>Apply coupon
-                      </button>
+                  <form method="POST" action="">
+                    <div class="input-group mb-4 border rounded-pill p-2">
+                      <input
+                        type="text"
+                        name="coupon_code"
+                        placeholder="Apply coupon"
+                        aria-describedby="button-addon3"
+                        class="form-control border-0"
+                        value="<?php echo isset($_SESSION['coupon_code']) ? $_SESSION['coupon_code'] : ''; ?>"
+                      />
+                      <div class="input-group-append border-0">
+                        <button
+                          type="submit"
+                          name="apply_coupon"
+                          class="btn btn-dark px-4 rounded-pill"
+                        >
+                          <i class="fa fa-gift mr-2"></i>Apply coupon
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </form>
+                  <?php if(isset($_SESSION['coupon_message'])): ?>
+                    <div class="alert alert-<?php echo $_SESSION['coupon_status']; ?> mt-2">
+                      <?php echo $_SESSION['coupon_message']; ?>
+                    </div>
+                  <?php endif; ?>
                 </div>
                 <div
                   class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold"
@@ -216,29 +273,30 @@ if ($result && $result != null) {
                     you have entered.
                   </p>
                   <ul class="list-unstyled mb-4">
-                    <li
-                      class="d-flex justify-content-between py-3 border-bottom"
-                    >
-                      <strong class="text-muted">Order Subtotal </strong
-                      ><strong>$6.86</strong>
+                    <li class="d-flex justify-content-between py-3 border-bottom">
+                      <strong class="text-muted">Order Subtotal </strong>
+                      <strong>$<?php echo number_format($total, 2); ?></strong>
                     </li>
-                    <li
-                      class="d-flex justify-content-between py-3 border-bottom"
-                    >
-                      <strong class="text-muted">Shipping and handling</strong
-                      ><strong>$5.00</strong>
+                    <?php if ($_SESSION['discount'] > 0): ?>
+                    <li class="d-flex justify-content-between py-3 border-bottom">
+                      <strong class="text-muted">Discount (20%) </strong>
+                      <strong>-$<?php echo number_format($total * $_SESSION['discount'], 2); ?></strong>
                     </li>
-                    <li
-                      class="d-flex justify-content-between py-3 border-bottom"
-                    >
-                      <strong class="text-muted">Tax</strong
-                      ><strong>$0.00</strong>
+                    <?php endif; ?>
+                    <li class="d-flex justify-content-between py-3 border-bottom">
+                      <strong class="text-muted">Shipping and handling</strong>
+                      <strong>$5.00</strong>
                     </li>
-                    <li
-                      class="d-flex justify-content-between py-3 border-bottom"
-                    >
+                    <li class="d-flex justify-content-between py-3 border-bottom">
+                      <strong class="text-muted">Tax</strong>
+                      <strong>$0.00</strong>
+                    </li>
+                    <li class="d-flex justify-content-between py-3 border-bottom">
                       <strong class="text-muted">Total</strong>
-                      <h5 class="font-weight-bold">$11.86</h5>
+                      <h5 class="font-weight-bold">$<?php 
+                        $discounted_total = $total * (1 - $_SESSION['discount']);
+                        echo number_format($discounted_total + 5.00, 2); 
+                      ?></h5>
                     </li>
                   </ul>
                   <a href="#" class="btn btn-dark rounded-pill py-2 btn-block"
